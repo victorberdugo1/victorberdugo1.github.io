@@ -18,7 +18,7 @@
             overflow-x: hidden;
         }
 
-        .stars {
+        #pixie {
             position: fixed;
             top: 0;
             left: 0;
@@ -26,18 +26,6 @@
             height: 100%;
             pointer-events: none;
             z-index: 0;
-        }
-
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 3s infinite;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
         }
 
         .container {
@@ -62,6 +50,24 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: gradient 3s ease infinite;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            20%, 100% { left: 100%; }
         }
 
         @keyframes gradient {
@@ -121,6 +127,9 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
 
         .project-card::before {
@@ -341,11 +350,11 @@
     </style>
 </head>
 <body>
-    <div class="stars" id="stars"></div>
+    <canvas id="pixie"></canvas>
 
     <div class="container">
         <header>
-            <h1>Victor Berdugo – Portfolio</h1>
+            <h1>Victor Berdugo</h1>
             <p class="subtitle">42 School Student | Game Developer | AI Enthusiast</p>
             <p class="tagline">Passionate about graphics programming, game development, and bringing visual concepts to life through code. Experienced in 3D modeling, AI integration, and creating immersive interactive experiences.</p>
         </header>
@@ -373,6 +382,17 @@
         <section class="section">
             <h2 class="section-title">Projects</h2>
             <div class="projects-grid">
+                <a href="https://github.com/victorberdugo1" class="project-card" target="_blank">
+                    <div class="project-icon">🔗</div>
+                    <h3 class="project-title">View All My Projects</h3>
+                    <p class="project-description">Check out my complete portfolio of projects on GitHub, including detailed documentation, source code, and demos of my work in graphics programming, game development, and AI.</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">GitHub</span>
+                        <span class="tech-tag">Open Source</span>
+                        <span class="tech-tag">Documentation</span>
+                    </div>
+                </a>
+
                 <div class="project-card">
                     <div class="project-icon">🎮</div>
                     <h3 class="project-title">Published Games on Play Store</h3>
@@ -533,29 +553,98 @@
     </div>
 
     <script>
-        const starsContainer = document.getElementById('stars');
-        for (let i = 0; i < 100; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.width = Math.random() * 3 + 'px';
-            star.style.height = star.style.width;
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 3 + 's';
-            starsContainer.appendChild(star);
+        var WIDTH = window.innerWidth;
+        var HEIGHT = window.innerHeight;
+        var canvas = document.getElementById('pixie');
+        var con = canvas.getContext('2d');
+        var pxs = [];
+        var rint = 60;
+
+        canvas.width = WIDTH;
+        canvas.height = HEIGHT;
+
+        window.addEventListener('resize', function() {
+            WIDTH = window.innerWidth;
+            HEIGHT = window.innerHeight;
+            canvas.width = WIDTH;
+            canvas.height = HEIGHT;
+        });
+
+        function Circle() {
+            this.s = {
+                ttl: 8000,
+                xmax: 3,
+                ymax: 2,
+                rmax: 7,
+                rt: 1,
+                xdef: 960,
+                ydef: 540,
+                xdrift: 4,
+                ydrift: 4,
+                random: true,
+                blink: true
+            };
+
+            this.reset = function() {
+                this.x = (this.s.random ? WIDTH * Math.random() : this.s.xdef);
+                this.y = (this.s.random ? HEIGHT * Math.random() : this.s.ydef);
+                this.r = ((this.s.rmax - 1) * Math.random()) + 1;
+                this.dx = (Math.random() * this.s.xmax) * (Math.random() < 0.5 ? -1 : 1);
+                this.dy = (Math.random() * this.s.ymax) * (Math.random() < 0.5 ? -1 : 1);
+                this.hl = (this.s.ttl / rint) * (this.r / this.s.rmax);
+                this.rt = Math.random() * this.hl;
+                this.s.rt = Math.random() + 1;
+                this.stop = Math.random() * 0.2 + 0.4;
+                this.s.xdrift *= Math.random() * (Math.random() < 0.5 ? -1 : 1);
+                this.s.ydrift *= Math.random() * (Math.random() < 0.5 ? -1 : 1);
+            };
+
+            this.fade = function() {
+                this.rt += this.s.rt;
+            };
+
+            this.draw = function() {
+                if (this.s.blink && (this.rt <= 0 || this.rt >= this.hl)) {
+                    this.s.rt = this.s.rt * -1;
+                } else if (this.rt >= this.hl) {
+                    this.reset();
+                }
+                var newo = 1 - (this.rt / this.hl);
+                con.beginPath();
+                con.arc(this.x, this.y, this.r, 0, Math.PI * 2, true);
+                con.closePath();
+                var cr = this.r * newo;
+                var g = con.createRadialGradient(this.x, this.y, 0, this.x, this.y, (cr <= 0 ? 1 : cr));
+                g.addColorStop(0.0, 'rgba(255,255,255,' + newo + ')');
+                g.addColorStop(this.stop, 'rgba(0,212,255,' + (newo * 0.6) + ')');
+                g.addColorStop(1.0, 'rgba(0,153,255,0)');
+                con.fillStyle = g;
+                con.fill();
+            };
+
+            this.move = function() {
+                this.x += (this.rt / this.hl) * this.dx;
+                this.y += (this.rt / this.hl) * this.dy;
+                if (this.x > WIDTH || this.x < 0) this.dx *= -1;
+                if (this.y > HEIGHT || this.y < 0) this.dy *= -1;
+            };
         }
 
-        const cards = document.querySelectorAll('.project-card');
-        cards.forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-            });
-        });
+        for (var i = 0; i < 80; i++) {
+            pxs[i] = new Circle();
+            pxs[i].reset();
+        }
 
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            starsContainer.style.transform = `translateY(${scrolled * 0.3}px)`;
-        });
+        function draw() {
+            con.clearRect(0, 0, WIDTH, HEIGHT);
+            for (var i = 0; i < pxs.length; i++) {
+                pxs[i].fade();
+                pxs[i].move();
+                pxs[i].draw();
+            }
+        }
+
+        setInterval(draw, rint);
     </script>
 </body>
 </html>
