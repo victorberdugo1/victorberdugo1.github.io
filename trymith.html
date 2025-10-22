@@ -1,0 +1,970 @@
+﻿<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+  <title>Trilateración - Método Gráfico</title>
+  <style>
+    html, body {
+      background-color: black;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    #container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    #controls-top {
+      flex-shrink: 0;
+      padding: 5px;
+      background-color: #1a1a1a;
+      transition: all 0.3s ease;
+    }
+    #controls-top.hidden {
+      display: none;
+    }
+    #toggle-controls {
+      width: 100%;
+      background-color: #2a2a2a;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      text-align: center;
+      transition: background-color 0.3s ease;
+    }
+    #toggle-controls:hover {
+      background-color: #3a3a3a;
+    }
+    #toggle-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      transition: top 0.3s ease;
+    }
+    #toggle-container.with-controls {
+      position: relative;
+    }
+    #mapa {
+      flex: 1;
+      min-height: 0;
+    }
+    .control-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 5px;
+      flex-wrap: nowrap;
+      width: 100%;
+    }
+    .control-row label {
+      font-size: 12px;
+      white-space: nowrap;
+      margin: 0;
+      flex-shrink: 0;
+    }
+    .control-row input[type="text"] {
+      font-size: 12px;
+      padding: 4px 6px;
+      border: 1px solid #ccc;
+      background-color: white;
+      flex: 1;
+      min-width: 0;
+    }
+    .control-row button {
+      padding: 4px 12px;
+      font-size: 12px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .direccion-input {
+      flex: 1;
+      min-width: 0;
+    }
+    .position-input {
+      flex: 1;
+      min-width: 0;
+    }
+    @media (max-width: 768px) {
+      .control-row {
+        font-size: 11px;
+        gap: 4px;
+      }
+      .control-row label {
+        font-size: 10px;
+      }
+      .control-row input[type="text"] {
+        font-size: 11px;
+        padding: 3px 4px;
+      }
+      .control-row button {
+        padding: 3px 8px;
+        font-size: 11px;
+      }
+    }
+    @media print {
+      html, body {
+        height: auto;
+      }
+      #mapa {
+        height: 650px;
+      }
+    }
+    [style*="word-break"] {
+      display: none !important;
+    }
+    div[style*="background-color: white"][style*="position: absolute"] {
+      display: none !important;
+    }
+    div[style*="background-color: rgba(0, 0, 0"][style*="position: absolute"] {
+      display: none !important;
+    }
+    div[style*="background: rgba(0, 0, 0"] {
+      display: none !important;
+    }
+    .gm-style > div[style*="background-color: rgba"] {
+      display: none !important;
+    }
+    .gm-style > div[style*="z-index: 1000000"] {
+      display: none !important;
+    }
+    #autocomplete-list, #autocomplete-list-coords {
+      position: fixed;
+      background: white;
+      border: 1px solid #ccc;
+      max-height: 200px;
+      overflow-y: auto;
+      width: 300px;
+      display: none;
+      z-index: 1000;
+    }
+    #autocomplete-list div, #autocomplete-list-coords div {
+      padding: 8px;
+      cursor: pointer;
+      color: black;
+    }
+    #autocomplete-list div:hover, #autocomplete-list-coords div:hover {
+      background-color: #e0e0e0;
+    }
+    #imagen-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+    #imagen-container {
+      max-width: 90%;
+      max-height: 90%;
+      text-align: center;
+    }
+    #imagen-container img {
+      max-width: 100%;
+      max-height: 70vh;
+      border: 3px solid white;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+    }
+    #imagen-container p {
+      color: white;
+      font-size: 18px;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    #btn-abrir-maps {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #4285F4;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+    #btn-abrir-maps:hover {
+      background-color: #357ae8;
+    }
+  </style>
+  <script type="text/javascript" src="https://maps.google.com/maps/api/js?libraries=geometry"></script>
+  <script type="text/javascript" src="ciudades.js"></script>
+  <script type="text/javascript" src="puntos.js"></script>
+  <script type="text/javascript">
+    var lat1 = null, lng1 = null, lat2 = null, lng2 = null, lat3 = null, lng3 = null;
+    var dist1 = null, dist2 = null, dist3 = null;
+    var marker = null, c = null, marker2 = null, c2 = null, marker3 = null, c3 = null;
+    var baricentro = null, triangle = null, m;
+    var markersArray = [];
+    var polylinesArray = [];
+
+    function mostrarImagen(nombreImagen, titulo, lat, lng) {
+      var overlay = document.getElementById('imagen-overlay');
+      var img = document.getElementById('imagen-display');
+      var textoTitulo = document.getElementById('imagen-titulo');
+
+      img.src = nombreImagen;
+      textoTitulo.textContent = titulo || '';
+      
+      // Guardar coordenadas en el overlay para usarlas al hacer clic
+      overlay.setAttribute('data-lat', lat);
+      overlay.setAttribute('data-lng', lng);
+      
+      overlay.style.display = 'flex';
+
+      console.log('Mostrando imagen:', nombreImagen, 'Título:', titulo, 'Coords:', lat, lng);
+    }
+
+    function ocultarImagen() {
+      var overlay = document.getElementById('imagen-overlay');
+      overlay.style.display = 'none';
+    }
+
+    function abrirEnGoogleMaps(event) {
+      event.stopPropagation();
+      
+      var overlay = document.getElementById('imagen-overlay');
+      var lat = overlay.getAttribute('data-lat');
+      var lng = overlay.getAttribute('data-lng');
+      
+      if (!lat || !lng) {
+        console.log('No hay coordenadas disponibles');
+        return;
+      }
+
+      var ua = navigator.userAgent || '';
+      var isAndroid = /Android/i.test(ua);
+      var isWebView = ua.includes('wv') || window.location.protocol === 'file:';
+      var isAndroidApp = isAndroid && isWebView;
+
+      if (isAndroidApp) {
+        // En app Android, usar geo: URL
+        var geoUrl = 'geo:' + lat + ',' + lng + '?z=15';
+        window.location.href = geoUrl;
+        console.log('Abriendo Google Maps nativo (app): ' + geoUrl);
+      } else {
+        // En navegador web, abrir Google Maps en nueva pestaña
+        var mapsUrl = 'https://www.google.com/maps?q=' + lat + ',' + lng + '&z=15';
+        window.open(mapsUrl, '_blank');
+        console.log('Abriendo Google Maps web: ' + mapsUrl);
+      }
+      
+      ocultarImagen();
+    }
+
+    function normalizeText(text) {
+      return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    }
+
+    function dibujarPuntos() {
+      if (typeof puntos !== 'undefined' && puntos && puntos.length > 0) {
+        puntos.forEach(function(punto) {
+          var pos = new google.maps.LatLng(punto.lat, punto.lng);
+
+          var escala = (punto.color === "#000000") ? 0 : 5;
+
+          var markerPunto = new google.maps.Marker({
+            position: pos,
+            map: m,
+            title: punto.nombre,
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: escala,
+              fillColor: punto.color,
+              fillOpacity: 0.8,
+              strokeColor: "#FFFFFF",
+              strokeWeight: 1
+            }
+          });
+
+          if (punto.imagen) {
+            google.maps.event.addListener(markerPunto, 'click', function() {
+              mostrarImagen(punto.imagen, punto.nombre, punto.lat, punto.lng);
+            });
+            console.log('Punto con imagen agregado:', punto.nombre, punto.imagen);
+          }
+
+          markersArray.push(markerPunto);
+        });
+        console.log('Total de puntos dibujados:', markersArray.length);
+      }
+    }
+
+    function dibujarLineas() {
+      if (typeof lineas !== 'undefined' && lineas && lineas.length > 0) {
+        lineas.forEach(function(linea) {
+          var puntoA = puntos.find(function(p) { return p.id === linea.puntoA; });
+          var puntoB = puntos.find(function(p) { return p.id === linea.puntoB; });
+
+          if (puntoA && puntoB) {
+            var polyline = new google.maps.Polyline({
+              path: [
+                new google.maps.LatLng(puntoA.lat, puntoA.lng),
+                new google.maps.LatLng(puntoB.lat, puntoB.lng)
+              ],
+              geodesic: true,
+              strokeColor: linea.color || '#00FF00',
+              strokeOpacity: 0.7,
+              strokeWeight: linea.weight || 1,
+              map: m
+            });
+            polylinesArray.push(polyline);
+          }
+        });
+      }
+    }
+
+    function searchCityInField(pointNum, fieldType) {
+      var value = '';
+      if (fieldType === 'lat') {
+        value = document.getElementById('lat' + pointNum).value;
+      } else {
+        value = document.getElementById('long' + pointNum).value;
+      }
+
+      if (!value || typeof ciudades === 'undefined') {
+        return false;
+      }
+
+      var ciudadEncontrada = ciudades.find(function(ciudad) {
+        return normalizeText(ciudad.nombre) === normalizeText(value);
+      });
+
+      if (ciudadEncontrada) {
+        document.getElementById('lat' + pointNum).value = ciudadEncontrada.lat;
+        document.getElementById('long' + pointNum).value = ciudadEncontrada.lng;
+
+        setTimeout(function() {
+          updateFromInputs(pointNum);
+        }, 100);
+        return true;
+      }
+      return false;
+    }
+
+    function updateFromInputs(pointNum) {
+      var lat = parseFloat(document.getElementById('lat' + pointNum).value);
+      var lng = parseFloat(document.getElementById('long' + pointNum).value);
+      var dist = parseFloat(document.getElementById('dist' + pointNum).value);
+
+      if (isNaN(lat) || isNaN(lng) || isNaN(dist)) {
+        alert('Por favor ingresa valores numéricos válidos');
+        return;
+      }
+
+      var newPos = new google.maps.LatLng(lat, lng);
+      var g = google.maps.geometry.spherical;
+
+      if (pointNum === 1) {
+        marker.setPosition(newPos);
+        c.setCenter(newPos);
+        c.setRadius(dist);
+      } else if (pointNum === 2) {
+        marker2.setPosition(newPos);
+        c2.setCenter(newPos);
+        c2.setRadius(dist);
+      } else if (pointNum === 3) {
+        marker3.setPosition(newPos);
+        c3.setCenter(newPos);
+        c3.setRadius(dist);
+      }
+
+      calculateTriangle(g);
+      updateBaricentroPosition();
+      m.panTo(newPos);
+    }
+
+    function codeAddress() {
+      var address = document.getElementById("direccion").value;
+
+      if (!address || address.trim() === '') {
+        alert("Por favor ingresa una ciudad o coordenadas en formato: lat, lng");
+        return;
+      }
+
+      if (typeof ciudades === 'undefined') {
+        alert("El archivo de ciudades aún se está cargando. Espera un momento e intenta de nuevo.");
+        return;
+      }
+
+      var lat, lng;
+
+      var ciudadEncontrada = ciudades.find(function(ciudad) {
+        return normalizeText(ciudad.nombre) === normalizeText(address);
+      });
+
+      if (ciudadEncontrada) {
+        lat = ciudadEncontrada.lat;
+        lng = ciudadEncontrada.lng;
+      } else {
+        var dmsPattern = /(\d+)°(\d+)'([\d.]+)"([NSEW])\s+(\d+)°(\d+)'([\d.]+)"([NSEW])/i;
+        var dmsMatch = address.match(dmsPattern);
+
+        if (dmsMatch) {
+          var lat1 = parseFloat(dmsMatch[1]) + (parseFloat(dmsMatch[2]) / 60) + (parseFloat(dmsMatch[3]) / 3600);
+          var dir1 = dmsMatch[4].toUpperCase();
+          if (dir1 === 'S' || dir1 === 'W') lat1 = -lat1;
+
+          var lng1 = parseFloat(dmsMatch[5]) + (parseFloat(dmsMatch[6]) / 60) + (parseFloat(dmsMatch[7]) / 3600);
+          var dir2 = dmsMatch[8].toUpperCase();
+          if (dir2 === 'S' || dir2 === 'W') lng1 = -lng1;
+
+          lat = lat1;
+          lng = lng1;
+        } else {
+          var coordMatch = address.match(/^(-?\d+\.?\d*)\s*,\s*(-?\d+\.?\d*)$/);
+
+          if (coordMatch) {
+            lat = parseFloat(coordMatch[1]);
+            lng = parseFloat(coordMatch[2]);
+
+            if (isNaN(lat) || isNaN(lng)) {
+              alert("Coordenadas decimales no válidas");
+              return;
+            }
+          } else {
+            alert("No se encontró la ciudad ni son coordenadas válidas.\nFormatos aceptados:\n- Ciudad: Barcelona\n- Decimales: 41.3851, 2.1734\n- DMS: 89°59'59\"S 51°51'49\"W");
+            return;
+          }
+        }
+      }
+
+      var location = new google.maps.LatLng(lat, lng);
+      m.setCenter(location);
+      m.setZoom(16);
+
+      var p1 = new google.maps.LatLng(lat + 0.0008, lng);
+      var p2 = new google.maps.LatLng(lat - 0.0004, lng - (0.0006928203230275509 / Math.cos(lat * Math.PI/180)));
+      var p3 = new google.maps.LatLng(lat - 0.0004, lng + (0.0006928203230275509 / Math.cos(lat * Math.PI/180)));
+
+      marker.setPosition(p1);
+      c.setCenter(p1);
+      c.setRadius(155);
+
+      marker2.setPosition(p2);
+      c2.setCenter(p2);
+      c2.setRadius(155);
+
+      marker3.setPosition(p3);
+      c3.setCenter(p3);
+      c3.setRadius(155);
+
+      var g = google.maps.geometry.spherical;
+      calculateTriangle(g);
+      updatePosition(marker.getPosition(), marker2.getPosition(), marker3.getPosition());
+      updateBaricentroPosition();
+    }
+
+    function convertToDMS(lat, lng) {
+      function toDMS(coord, isLat) {
+        var absolute = Math.abs(coord);
+        var degrees = Math.floor(absolute);
+        var minutesNotTruncated = (absolute - degrees) * 60;
+        var minutes = Math.floor(minutesNotTruncated);
+        var seconds = ((minutesNotTruncated - minutes) * 60).toFixed(1);
+        
+        var direction;
+        if (isLat) {
+          direction = coord >= 0 ? 'N' : 'S';
+        } else {
+          direction = coord >= 0 ? 'E' : 'W';
+        }
+        
+        return degrees + '°' + minutes + "'" + seconds + '"' + direction;
+      }
+      
+      return toDMS(lat, true) + ' ' + toDMS(lng, false);
+    }
+
+    function updateBaricentroPosition() {
+      var pos = baricentro.getPosition();
+      var dmsFormat = convertToDMS(pos.lat(), pos.lng());
+      document.getElementById('pos').value = dmsFormat;
+    }
+
+    function copiarPosicion() {
+      var posInput = document.getElementById('pos');
+      posInput.select();
+      posInput.setSelectionRange(0, 99999);
+      
+      try {
+        document.execCommand('copy');
+        var btn = document.getElementById('btn-copiar-pos');
+        var textoOriginal = btn.textContent;
+        btn.textContent = '✓ Copied!';
+        btn.style.backgroundColor = '#28a745';
+        setTimeout(function() {
+          btn.textContent = textoOriginal;
+          btn.style.backgroundColor = '';
+        }, 2000);
+      } catch (err) {
+        alert('Error al copiar: ' + err);
+      }
+    }
+
+    function handleEnterKey(e, pointNum, fieldType) {
+      if (e.which == 13 || e.keyCode == 13 || e.key === 'Enter') {
+        e.preventDefault();
+        if (fieldType === 'dist') {
+          updateFromInputs(pointNum);
+        } else {
+          if (!searchCityInField(pointNum, fieldType)) {
+            updateFromInputs(pointNum);
+          }
+        }
+      }
+    }
+
+    function init() {
+      console.log('Inicializando mapa...');
+
+      m = new google.maps.Map(document.getElementById("mapa"));
+      m.setZoom(16);
+      m.setMapTypeId(google.maps.MapTypeId.HYBRID);
+      var x = 41.387642, y = 2.171326;
+      var pos = new google.maps.LatLng(x, y);
+      m.setCenter(pos);
+
+      function isTouchDevice(){
+        return ('ontouchstart' in window) || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+      }
+
+      var conf = {
+        strokeColor: "#FFFFFF", strokeOpacity: 0.9, strokeWeight: 3,
+        fillColor: "#0000FF", fillOpacity: 0.2,
+        editable: !isTouchDevice(),
+        map: m, center: pos, radius: 150,
+        draggable: false, clickable: false
+      };
+      c = new google.maps.Circle(conf);
+
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(41.387642, 2.171326),
+        map: m,
+        title: "Punto 1",
+        draggable: true,
+        zIndex: 1000,
+        icon: {
+          path: google.maps.SymbolPath.CIRCLE,
+          scale: 9,
+          fillColor: "#0000FF",
+          fillOpacity: 1,
+          strokeColor: "#FFFFFF",
+	  strokeOpacity: 0.5,
+          strokeWeight: 2
+        }
+      });
+
+      var conf2 = {
+        strokeColor: "#FFFFFF", strokeOpacity: 0.6, strokeWeight: 3,
+        fillColor: "#FF0000", fillOpacity: 0.2, editable: !isTouchDevice(), map: m,
+        center: new google.maps.LatLng(41.387526, 2.168612), radius: 150,
+        draggable: false, clickable: false
+      };
+      c2 = new google.maps.Circle(conf2);
+      
+      marker2 = new google.maps.Marker({
+        position: new google.maps.LatLng(41.387526, 2.168612),
+        map: m,
+        title: "Punto 2",
+        draggable: true,
+        zIndex: 1000,
+        icon: {
+          path: google.maps.SymbolPath.CIRCLE,
+          scale: 9,
+          fillColor: "#FF0000",
+          fillOpacity: 1,
+          strokeColor: "#FFFFFF",
+	  strokeOpacity: 0.5,
+          strokeWeight: 2
+        }
+      });
+
+      var conf3 = {
+        strokeColor: "#FFFFFF", strokeOpacity: 0.6, strokeWeight: 3,
+        fillColor: "#00FF00", fillOpacity: 0.2, editable: !isTouchDevice(), map: m,
+        center: new google.maps.LatLng(41.385873, 2.170207), radius: 150,
+        draggable: false, clickable: false
+      };
+      c3 = new google.maps.Circle(conf3);
+      
+      marker3 = new google.maps.Marker({
+        position: new google.maps.LatLng(41.385873, 2.170207),
+        map: m,
+        title: "Punto 3",
+        draggable: true,
+        zIndex: 1000,
+        icon: {
+          path: google.maps.SymbolPath.CIRCLE,
+          scale: 9,
+          fillColor: "#00FF00",
+          fillOpacity: 1,
+          strokeColor: "#FFFFFF",
+	  strokeOpacity: 0.5,
+          strokeWeight: 2
+        }
+      });
+
+      triangle = new google.maps.Polyline({
+        strokeColor: '#FFFF00', strokeOpacity: 1.0, strokeWeight: 2
+      });
+      triangle.setMap(m);
+
+      var g = google.maps.geometry.spherical;
+      calculateTriangle(g);
+
+      updatePosition(marker.getPosition(), marker2.getPosition(), marker3.getPosition());
+      updateBaricentroPosition();
+
+      dibujarPuntos();
+      dibujarLineas();
+
+      google.maps.event.addListener(marker, 'drag', function(){ handleMarkerDrag(g); });
+      google.maps.event.addListener(marker2, 'drag', function(){ handleMarkerDrag(g); });
+      google.maps.event.addListener(marker3, 'drag', function(){ handleMarkerDrag(g); });
+      google.maps.event.addListener(marker, 'dragend', function(){ handleDragEnd(); });
+      google.maps.event.addListener(marker2, 'dragend', function(){ handleDragEnd(); });
+      google.maps.event.addListener(marker3, 'dragend', function(){ handleDragEnd(); });
+      google.maps.event.addListener(c, 'radius_changed', function(){ handleRadiusChange(g); });
+      google.maps.event.addListener(c2, 'radius_changed', function(){ handleRadiusChange(g); });
+      google.maps.event.addListener(c3, 'radius_changed', function(){ handleRadiusChange(g); });
+
+      document.getElementById('lat1').addEventListener('keypress', function(e){ handleEnterKey(e, 1, 'lat'); });
+      document.getElementById('lat1').addEventListener('keydown', function(e){ handleEnterKey(e, 1, 'lat'); });
+      document.getElementById('long1').addEventListener('keypress', function(e){ handleEnterKey(e, 1, 'lng'); });
+      document.getElementById('long1').addEventListener('keydown', function(e){ handleEnterKey(e, 1, 'lng'); });
+      document.getElementById('dist1').addEventListener('keypress', function(e){ handleEnterKey(e, 1, 'dist'); });
+      document.getElementById('dist1').addEventListener('keydown', function(e){ handleEnterKey(e, 1, 'dist'); });
+
+      document.getElementById('lat2').addEventListener('keypress', function(e){ handleEnterKey(e, 2, 'lat'); });
+      document.getElementById('lat2').addEventListener('keydown', function(e){ handleEnterKey(e, 2, 'lat'); });
+      document.getElementById('long2').addEventListener('keypress', function(e){ handleEnterKey(e, 2, 'lng'); });
+      document.getElementById('long2').addEventListener('keydown', function(e){ handleEnterKey(e, 2, 'lng'); });
+      document.getElementById('dist2').addEventListener('keypress', function(e){ handleEnterKey(e, 2, 'dist'); });
+      document.getElementById('dist2').addEventListener('keydown', function(e){ handleEnterKey(e, 2, 'dist'); });
+
+      document.getElementById('lat3').addEventListener('keypress', function(e){ handleEnterKey(e, 3, 'lat'); });
+      document.getElementById('lat3').addEventListener('keydown', function(e){ handleEnterKey(e, 3, 'lat'); });
+      document.getElementById('long3').addEventListener('keypress', function(e){ handleEnterKey(e, 3, 'lng'); });
+      document.getElementById('long3').addEventListener('keydown', function(e){ handleEnterKey(e, 3, 'lng'); });
+      document.getElementById('dist3').addEventListener('keypress', function(e){ handleEnterKey(e, 3, 'dist'); });
+      document.getElementById('dist3').addEventListener('keydown', function(e){ handleEnterKey(e, 3, 'dist'); });
+
+      document.getElementById('direccion').addEventListener('input', function() {
+        var field = this;
+        var valor = normalizeText(field.value);
+        var lista = document.getElementById('autocomplete-list');
+
+        if (valor.length === 0) {
+          lista.style.display = 'none';
+          return;
+        }
+
+        if (typeof ciudades !== 'undefined') {
+          var resultados = ciudades.filter(function(ciudad) {
+            return normalizeText(ciudad.nombre).includes(valor);
+          });
+
+          lista.innerHTML = '';
+          if (resultados.length > 0) {
+            resultados.forEach(function(ciudad) {
+              var div = document.createElement('div');
+              div.textContent = ciudad.nombre;
+              div.setAttribute('data-lat', ciudad.lat);
+              div.setAttribute('data-lng', ciudad.lng);
+              div.addEventListener('click', function() {
+                document.getElementById('direccion').value = ciudad.nombre;
+                lista.style.display = 'none';
+                codeAddress();
+              });
+              lista.appendChild(div);
+            });
+
+            var offset = field.getBoundingClientRect();
+            lista.style.top = (offset.top + field.offsetHeight) + 'px';
+            lista.style.left = offset.left + 'px';
+            lista.style.display = 'block';
+          } else {
+            lista.style.display = 'none';
+          }
+        }
+      });
+
+      document.getElementById('direccion').addEventListener('keypress', function(e) {
+        if(e.which == 13 || e.keyCode == 13 || e.key === 'Enter') {
+          e.preventDefault();
+          document.getElementById('autocomplete-list').style.display = 'none';
+          codeAddress();
+        }
+      });
+
+      document.getElementById('direccion').addEventListener('keydown', function(e) {
+        if(e.which == 13 || e.keyCode == 13 || e.key === 'Enter') {
+          e.preventDefault();
+          document.getElementById('autocomplete-list').style.display = 'none';
+          codeAddress();
+        }
+      });
+
+      var autocompleteTimer;
+      var coordFields = ['lat1', 'long1', 'lat2', 'long2', 'lat3', 'long3'];
+
+      coordFields.forEach(function(fieldId) {
+        document.getElementById(fieldId).addEventListener('input', function() {
+          var field = this;
+          var valor = normalizeText(field.value);
+          var lista = document.getElementById('autocomplete-list-coords');
+
+          clearTimeout(autocompleteTimer);
+
+          if (valor.length === 0) {
+            lista.style.display = 'none';
+            return;
+          }
+
+          if (!isNaN(field.value) && field.value.trim() !== '') {
+            lista.style.display = 'none';
+            return;
+          }
+
+          autocompleteTimer = setTimeout(function() {
+            if (typeof ciudades !== 'undefined') {
+              var resultados = ciudades.filter(function(ciudad) {
+                return normalizeText(ciudad.nombre).includes(valor);
+              });
+
+              lista.innerHTML = '';
+              if (resultados.length > 0) {
+                resultados.slice(0, 10).forEach(function(ciudad) {
+                  var div = document.createElement('div');
+                  div.textContent = ciudad.nombre;
+                  div.setAttribute('data-lat', ciudad.lat);
+                  div.setAttribute('data-lng', ciudad.lng);
+                  div.setAttribute('data-field', fieldId);
+                  div.addEventListener('click', function() {
+                    var pointNum = fieldId.match(/\d+/)[0];
+                    document.getElementById('lat' + pointNum).value = ciudad.lat;
+                    document.getElementById('long' + pointNum).value = ciudad.lng;
+                    lista.style.display = 'none';
+                    updateFromInputs(parseInt(pointNum));
+                  });
+                  lista.appendChild(div);
+                });
+
+                var offset = field.getBoundingClientRect();
+                lista.style.top = (offset.top + field.offsetHeight) + 'px';
+                lista.style.left = offset.left + 'px';
+                lista.style.display = 'block';
+              } else {
+                lista.style.display = 'none';
+              }
+            }
+          }, 300);
+        });
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('#direccion, #autocomplete-list') && !e.target.closest('#lat1, #long1, #lat2, #long2, #lat3, #long3, #autocomplete-list-coords')) {
+          document.getElementById('autocomplete-list').style.display = 'none';
+          document.getElementById('autocomplete-list-coords').style.display = 'none';
+        }
+      });
+
+      document.getElementById('pasar').addEventListener('click', function() {
+        codeAddress();
+      });
+
+      document.getElementById('toggle-controls').addEventListener('click', function() {
+        var controls = document.getElementById('controls-top');
+        var btn = document.getElementById('toggle-controls');
+        var container = document.getElementById('toggle-container');
+
+        if (controls.classList.contains('hidden')) {
+          controls.classList.remove('hidden');
+          btn.textContent = '▲ Hide Controls';
+          container.classList.add('with-controls');
+        } else {
+          controls.classList.add('hidden');
+          btn.textContent = '▼ Show Controls';
+          container.classList.remove('with-controls');
+        }
+      });
+
+      console.log('Mapa inicializado correctamente');
+    }
+
+    function calculateTriangle(g) {
+      var heading_1_2 = g.computeHeading(marker.getPosition(), marker2.getPosition());
+      var point_1_2 = g.computeOffset(marker.getPosition(), c.getRadius(), heading_1_2);
+      var heading_1_3 = g.computeHeading(marker.getPosition(), marker3.getPosition());
+      var point_1_3 = g.computeOffset(marker.getPosition(), c.getRadius(), heading_1_3);
+      var heading_2_1 = g.computeHeading(marker2.getPosition(), marker.getPosition());
+      var point_2_1 = g.computeOffset(marker2.getPosition(), c2.getRadius(), heading_2_1);
+      var heading_2_3 = g.computeHeading(marker2.getPosition(), marker3.getPosition());
+      var point_2_3 = g.computeOffset(marker2.getPosition(), c2.getRadius(), heading_2_3);
+      var heading_3_1 = g.computeHeading(marker3.getPosition(), marker.getPosition());
+      var point_3_1 = g.computeOffset(marker3.getPosition(), c3.getRadius(), heading_3_1);
+      var heading_3_2 = g.computeHeading(marker3.getPosition(), marker2.getPosition());
+      var point_3_2 = g.computeOffset(marker3.getPosition(), c3.getRadius(), heading_3_2);
+
+      var intermedio = g.interpolate(point_1_2, point_2_1, 0.5);
+      var intermedio2 = g.interpolate(point_2_3, point_3_2, 0.5);
+      var intermedio3 = g.interpolate(point_3_1, point_1_3, 0.5);
+
+      triangle.setPath([intermedio, intermedio2, intermedio3, intermedio]);
+
+      var bar = new google.maps.LatLng(
+        (intermedio.lat() + intermedio2.lat() + intermedio3.lat()) / 3,
+        (intermedio.lng() + intermedio2.lng() + intermedio3.lng()) / 3
+      );
+
+      if (!baricentro) {
+        baricentro = new google.maps.Marker({ 
+          position: bar, 
+          title: "Posicion", 
+          map: m,
+          zIndex: 1
+        });
+      } else {
+        baricentro.setPosition(bar);
+      }
+    }
+
+    function handleMarkerDrag(g) {
+      c.setCenter(marker.getPosition());
+      c2.setCenter(marker2.getPosition());
+      c3.setCenter(marker3.getPosition());
+      calculateTriangle(g);
+      updatePosition(marker.getPosition(), marker2.getPosition(), marker3.getPosition());
+      updateBaricentroPosition();
+    }
+
+    function handleDragEnd() {
+      updatePosition(marker.getPosition(), marker2.getPosition(), marker3.getPosition());
+      updateBaricentroPosition();
+    }
+
+    function handleRadiusChange(g) {
+      calculateTriangle(g);
+      updatePosition(marker.getPosition(), marker2.getPosition(), marker3.getPosition());
+      updateBaricentroPosition();
+    }
+
+    function updatePosition(latLng, latLng2, latLng3) {
+      document.getElementById('lat1').value = latLng.lat();
+      document.getElementById('long1').value = latLng.lng();
+      document.getElementById('dist1').value = c.getRadius();
+      document.getElementById('lat2').value = latLng2.lat();
+      document.getElementById('long2').value = latLng2.lng();
+      document.getElementById('dist2').value = c2.getRadius();
+      document.getElementById('lat3').value = latLng3.lat();
+      document.getElementById('long3').value = latLng3.lng();
+      document.getElementById('dist3').value = c3.getRadius();
+    }
+
+    document.addEventListener('click', function(e) {
+      var ua = navigator.userAgent || '';
+
+      var isAndroid = /Android/i.test(ua);
+      var isWebView = ua.includes('wv') || window.location.protocol === 'file:';
+      var isAndroidApp = isAndroid && isWebView;
+
+      if (!isAndroidApp) return;
+
+      var target = e.target.closest('a');
+
+      if (target && target.href && target.href.includes('maps.google.com')) {
+        e.preventDefault();
+
+        var match = target.href.match(/ll=(-?\d+\.?\d*),(-?\d+\.?\d*)/);
+        var zoomMatch = target.href.match(/z=(\d+)/);
+
+        if (match) {
+          var lat = match[1];
+          var lng = match[2];
+          var zoom = zoomMatch ? zoomMatch[1] : '15';
+
+          var geoUrl = 'geo:' + lat + ',' + lng + '?z=' + zoom;
+          window.location.href = geoUrl;
+
+          console.log('Abriendo Google Maps nativo: ' + geoUrl);
+        }
+      }
+    }, true);
+
+  </script>
+</head>
+<body onload="init()">
+<div id="toggle-container" class="with-controls">
+  <div id="container">
+    <div id="controls-top">
+      <div class="control-row" style="color: #FFFFFF; position: relative;">
+        <label>City:</label>
+        <input class="direccion-input" type="text" id="direccion" name="direccion" value=""/>
+        <button id="pasar">Go to coordinates</button>
+        <div id="autocomplete-list"></div>
+      </div>
+      <div class="control-row" style="color: #0000FF;">
+        <label>Point1</label>
+        <label>Lat:</label>
+        <input type="text" name="lat1" id="lat1"/>
+        <label>Lng:</label>
+        <input type="text" name="lng1" id="long1"/>
+        <label>Dist:</label>
+        <input type="text" name="dis1" id="dist1"/>
+      </div>
+
+      <div class="control-row" style="color: #FF0000;">
+        <label>Point2</label>
+        <label>Lat:</label>
+        <input type="text" name="lat2" id="lat2"/>
+        <label>Lng:</label>
+        <input type="text" name="lng2" id="long2"/>
+        <label>Dist:</label>
+        <input type="text" name="dis2" id="dist2"/>
+      </div>
+
+      <div class="control-row" style="color: #00FF00;">
+        <label>Point3</label>
+        <label>Lat:</label>
+        <input type="text" name="lat3" id="lat3"/>
+        <label>Lng:</label>
+        <input type="text" name="lng3" id="long3"/>
+        <label>Dist:</label>
+        <input type="text" name="dis3" id="dist3"/>
+      </div>
+
+      <div class="control-row" style="color: #FFFF00;">
+        <label>Position:</label>
+        <input class="position-input" type="text" readonly name="posi" id="pos"/>
+        <button id="btn-copiar-pos" onclick="copiarPosicion()">Copy DMS</button>
+      </div>
+
+      <div id="autocomplete-list-coords"></div>
+    </div>
+    <button id="toggle-controls">▲ Hide Controls</button>
+    <div id="mapa"></div>
+  </div>
+</div>
+<div id="imagen-overlay" onclick="ocultarImagen()" onclick="event.stopPropagation()">
+  <div id="imagen-container" >
+    <img id="imagen-display" src="" alt="Imagen del punto" onclick="abrirEnGoogleMaps(event)">
+    <p id="imagen-titulo"></p>
+    <button id="btn-abrir-maps" onclick="abrirEnGoogleMaps(event)">Open in Google Maps</button>
+  </div>
+</div>
+</body>
+</html>
