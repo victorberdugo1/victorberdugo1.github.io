@@ -221,7 +221,6 @@
 }
 
 
-
         @keyframes mountains-drift {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
@@ -238,6 +237,10 @@
         }
 
         @media (max-width: 768px) {
+	html, body {
+        	overflow-x: hidden;
+        	touch-action: pan-y;
+    	}
             h1 { font-size: 2.5em; }
             .subtitle { font-size: 1.2em; }
             .projects-grid { grid-template-columns: 1fr; }
@@ -247,9 +250,9 @@
             .passion-section h2 { font-size: 2em; }
             .passion-section p { font-size: 1em; }
             .project-icon { width: 48px; height: 48px; font-size: 24px; }
-            .parallax-container { height: 180px; }
-            .parallax-mountains { height: 120px; }
-            .parallax-grass { height: 50px; }
+            .parallax-container { height: 220px; }
+            .parallax-mountains { height: 156px; }
+            .parallax-grass { height: 70px; }
         }
     </style>
 </head>
