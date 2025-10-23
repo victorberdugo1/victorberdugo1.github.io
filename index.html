@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -78,8 +78,6 @@
         }
         .project-card:hover::before { left: 100%; }
         .project-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,153,255,0.3); border-color: #00d4ff; }
-
-        /* --- ICON STYLE: uniform size for emojis, SVGs and images --- */
         .project-icon {
             width: 56px;
             height: 56px;
@@ -91,25 +89,22 @@
             flex-shrink: 0;
             margin-bottom: 20px;
             background: transparent;
-            font-size: 28px;            /* escala los emojis */
+            font-size: 28px;
             line-height: 1;
         }
 
-        /* images inside project-icon */
         .project-icon img.project-icon-img {
             width: 100%;
             height: 100%;
-            object-fit: contain;        /* no recorta la imagen */
+            object-fit: contain;
             display: block;
         }
 
-        /* svg sizing */
         .project-icon svg {
             width: 100%;
             height: 100%;
             display: block;
         }
-        /* -------------------------------------------------------- */
 
         .project-title { font-size: 1.5em; margin-bottom: 15px; color: #00d4ff; }
         .project-description { color: #b3b3b3; line-height: 1.6; margin-bottom: 20px; }
@@ -217,10 +212,8 @@
                     </div>
                 </a>
 
-                <!-- === UNIFIED ANDROID / PLAY STORE CARD === -->
                 <div class="project-card">
                     <div class="project-icon" aria-hidden="false" title="Google Play / Android">
-                        <!-- Play Store exact-path SVG with multicolor gradient -->
                         <svg role="img" aria-label="Play Store icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
                           <defs>
                             <linearGradient id="playGradUnified" x1="0" y1="0" x2="1" y2="1">
@@ -235,11 +228,9 @@
                             </linearGradient>
                           </defs>
 
-                          <!-- shape using the provided path; fill with multicolor gradient -->
                           <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"
                                 fill="url(#playGradUnified)"></path>
 
-                          <!-- subtle gloss for depth -->
                           <path d="M6.05,2.66L14.54,11.15L16.81,8.88L6.05,2.66Z" fill="url(#playGloss)" opacity="0.25"></path>
                         </svg>
                     </div>
@@ -251,16 +242,16 @@
                         Experience includes native Kotlin/Java apps (MVVM, Android SDK, architecture), Unity game development (C#), 
                         Play Store deployment, ad integration, in-app purchases, and release management.
                     </p>
-                <div class="tech-stack">
-                <span class="tech-tag">Unity</span>
-                <span class="tech-tag">C#</span>
-                <span class="tech-tag">Kotlin</span>
-                <span class="tech-tag">Android</span>
-                <span class="tech-tag">Google Play</span>
-                <span class="tech-tag">In-App Purchases</span>
+
+                    <div class="tech-stack">
+                      <span class="tech-tag">Unity</span>
+                      <span class="tech-tag">C#</span>
+                      <span class="tech-tag">Kotlin</span>
+                      <span class="tech-tag">Android</span>
+                      <span class="tech-tag">Google Play</span>
+                      <span class="tech-tag">In-App Purchases</span>
+                    </div>
                 </div>
-                </div>
-                <!-- === END UNIFIED CARD === -->
 
                 <div class="project-card">
                     <div class="project-icon">🕹️</div>
@@ -380,6 +371,26 @@
                         <li>Memory Management</li>
                         <li>Graphics Pipeline</li>
                     </ul>
+                </div>
+                <div class="skill-category">
+                  <h3>UI & Game Systems</h3>
+                  <ul class="skill-list">
+                    <li>UI / HUD</li>
+                    <li>Input Systems</li>
+                    <li>State Machines</li>
+                    <li>Entity-Component System</li>
+                    <li>Animation & Blend Trees</li>
+                  </ul>
+                </div>
+                <div class="skill-category">
+                  <h3>Low-Level Tech</h3>
+                  <ul class="skill-list">
+                    <li>Low-level C / C++</li>
+                    <li>ARM & Embedded Linux</li>
+                    <li>Peripherals</li>
+                    <li>Performance Optimization</li>
+                    <li>Embedded Systems & RTOS</li>
+                  </ul>
                 </div>
             </div>
         </section>
