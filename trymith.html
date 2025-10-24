@@ -146,26 +146,23 @@
       gap: 15px;
       margin-bottom: 15px;
     }
-.banner-icon {
-  width: 68px;
-  height: 68px;
-  background: white; /* o 'transparent' si no quieres fondo blanco */
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.12);
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.banner-icon-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* muestra todo el icono sin recortarlo */
-  display: block;
-}
-
+    .banner-icon {
+      width: 68px;
+      height: 68px;
+      background: white;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .banner-icon-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
     }
     .banner-title {
       flex: 1;
@@ -213,25 +210,25 @@
       font-size: 12px;
       flex-shrink: 0;
     }
-.banner-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 10px 12px;
-  border-radius: 10px;
-  background: #fff;
-  color: #667eea;
-  font-weight: 700;
-  text-decoration: none;
-  cursor: pointer;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  justify-content: center;
-  min-width: 0;
-}
+    .banner-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: #fff;
+      color: #667eea;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      justify-content: center;
+      min-width: 0;
+    }
     .banner-button:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
@@ -368,7 +365,7 @@
     var markersArray = [];
     var polylinesArray = [];
 
-    function mostrarImagen(nombreImagen, titulo, lat, lng) {
+    function mostrarImagen(nombreImagen, titulo, lat, lng, videoUrl) {
       var overlay = document.getElementById('imagen-overlay');
       var img = document.getElementById('imagen-display');
       var textoTitulo = document.getElementById('imagen-titulo');
@@ -378,10 +375,11 @@
       
       overlay.setAttribute('data-lat', lat);
       overlay.setAttribute('data-lng', lng);
+      overlay.setAttribute('data-video', videoUrl || '');
       
       overlay.style.display = 'flex';
 
-      console.log('Mostrando imagen:', nombreImagen, 'Título:', titulo, 'Coords:', lat, lng);
+      console.log('Mostrando imagen:', nombreImagen, 'Título:', titulo, 'Coords:', lat, lng, 'Video:', videoUrl);
     }
 
     function ocultarImagen() {
@@ -419,6 +417,29 @@
       ocultarImagen();
     }
 
+    function abrirVideo(event) {
+      event.stopPropagation();
+
+      const overlay = document.getElementById('imagen-overlay');
+      const videoUrl = overlay ? overlay.getAttribute('data-video') || '' : '';
+
+      if (!videoUrl) {
+        console.log('No hay URL de video disponible.');
+        return;
+      }
+
+      const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+      const match = videoUrl.match(youtubeRegex);
+
+      const urlToOpen = (match && match[1])
+        ? 'https://www.youtube.com/watch?v=' + match[1]
+        : videoUrl;
+
+      window.open(urlToOpen, '_blank', 'noopener,noreferrer');
+
+      ocultarImagen();
+    }
+
     function normalizeText(text) {
       return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     }
@@ -446,9 +467,9 @@
 
           if (punto.imagen) {
             google.maps.event.addListener(markerPunto, 'click', function() {
-              mostrarImagen(punto.imagen, punto.nombre, punto.lat, punto.lng);
+              mostrarImagen(punto.imagen, punto.nombre, punto.lat, punto.lng, punto.video);
             });
-            console.log('Punto con imagen agregado:', punto.nombre, punto.imagen);
+            console.log('Punto con imagen agregado:', punto.nombre, punto.imagen, 'Video:', punto.video);
           }
 
           markersArray.push(markerPunto);
@@ -1097,7 +1118,6 @@
   </div>
 
 <a href="https://play.google.com/store/apps/details?id=com.Berdugo.trilateracion" target="_blank" class="banner-button" rel="noopener noreferrer">
-  <!-- svg o <img> que ya tienes -->
   <svg class="playstore-icon" viewBox="0 0 24 24" fill="currentColor">
     <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
   </svg>
@@ -1158,7 +1178,7 @@
 </div>
 <div id="imagen-overlay" onclick="ocultarImagen()">
   <div id="imagen-container" onclick="event.stopPropagation()">
-    <img id="imagen-display" src="" alt="Imagen del punto" onclick="abrirEnGoogleMaps(event)">
+    <img id="imagen-display" src="" alt="Imagen del punto" onclick="abrirVideo(event)">
     <p id="imagen-titulo"></p>
     <button id="btn-abrir-maps" onclick="abrirEnGoogleMaps(event)">Open in Google Maps</button>
   </div>
