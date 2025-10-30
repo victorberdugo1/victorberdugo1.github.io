@@ -1177,8 +1177,8 @@
   </div>
 </div>
 <div id="imagen-overlay" onclick="ocultarImagen()">
-  <div id="imagen-container" onclick="event.stopPropagation()">
-    <img id="imagen-display" src="" alt="Imagen del punto" onclick="abrirVideo(event)">
+  <div id="imagen-container">
+    <img id="imagen-display" src="" alt="Imagen del punto" onclick="abrirVideo(event)" onclick="event.stopPropagation()">
     <p id="imagen-titulo"></p>
     <button id="btn-abrir-maps" onclick="abrirEnGoogleMaps(event)">Open in Google Maps</button>
   </div>
