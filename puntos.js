@@ -94,7 +94,7 @@ var puntos = [
   { id: 78, lat: 30.962680, lng: 46.103154, nombre: "Ur", color: "#B87333", imagen: "img/ur.jpg", video: "https://www.youtube.com/watch?v=-df7wZmXmV4" },
   { id: 79, lat: 59.557963, lng: -138.812435, nombre: "Pole 3.39M years ago", color: "#3C7A5B", imagen: "img/pole.jpg", video: "https://www.youtube.com/watch?v=7lC5t6biiGc" },
   { id: 80, lat: 13.412508, lng: 103.866951, nombre: "Angkor Wat", color: "#B88A55", imagen: "img/angkor.jpg", video: "https://www.youtube.com/watch?v=zG6DW8uGmxk" },
-  { id: 81, lat: -30.15957, lng: -148.78975, nombre: "Mu", color: "#FF0000", imagen: "img/mu.jpg" },
+  { id: 81, lat: -30.15957, lng: -148.78975, nombre: "Mu", color: "#0E5E6F", imagen: "img/mu.jpg", video: "https://www.youtube.com/watch?v=Ad6CqAsdEkw" },
   { id: 82, lat: 63.620080, lng: -146.717891, nombre: "Mount Hayes", color: "#6B7C8A", imagen: "img/hayes.jpg" },
 { id: 83, lat: -63.6200833,  lng: 33.2821111, nombre: "Theia-Notus", color: "#FFFFFF", imagen: "img/theia.jpg", video: "https://www.youtube.com/watch?v=7lC5t6biiGc" },
  
