@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nebula Fast & Clear</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* BASE */
+        body { 
+            margin: 0; background: #000; overflow: hidden; 
+            font-family: 'Segoe UI', sans-serif; user-select: none;
+            -webkit-tap-highlight-color: transparent; position: fixed; width: 100%; height: 100%;
+        }
+        canvas { display: block; position: absolute; inset: 0; z-index: 0; }
+        .ui-layer { position: absolute; inset: 0; z-index: 10; pointer-events: none; }
+        .pointer-auto { pointer-events: auto; }
+
+        /* UI */
+        .glass-panel {
+            background: rgba(10, 10, 10, 0.6);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px;
+        }
+        textarea {
+            background: transparent; border: none; outline: none;
+            text-align: center; color: rgba(255,255,255,0.9);
+            resize: none; width: 100%; text-shadow: 0 2px 4px #000;
+            font-size: 16px; font-weight: 500;
+        }
+        textarea::placeholder { color: rgba(255,255,255,0.3); }
+
+        .nav-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 50px; height: 50px; border-radius: 50%;
+            background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.05);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; pointer-events: auto; z-index: 20;
+            transition: all 0.2s;
+        }
+        .nav-btn:active { transform: translateY(-50%) scale(0.9); background: rgba(255,255,255,0.2); }
+        .prev { left: 10px; } .next { right: 10px; }
+        @media (pointer: coarse) { .nav-btn { display: none; } }
+
+        /* DOCK */
+        .dock-img { 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0.5; filter: grayscale(100%); 
+            border-radius: 50%; object-fit: cover;
+            width: 48px; height: 48px; border: 2px solid transparent;
+        }
+        .dock-img.active { opacity: 1; filter: grayscale(0%); transform: scale(1.2); border-color: #8b5cf6; }
+
+        .recording { color: #ef4444; animation: pulse 1s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body>
+
+    <canvas id="canvas"></canvas>
+
+    <div class="ui-layer flex flex-col justify-between p-4 h-full">
+        <!-- HEADER -->
+        <div class="flex justify-between items-center pointer-auto w-full z-30">
+            <h1 class="text-xs font-bold tracking-[0.3em] text-white/40">CLOUD<span class="text-purple-500">.SPEED</span></h1>
+            <div class="flex gap-3">
+                <button id="btn-mic" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-lg active:scale-95 transition-transform">🎤</button>
+                <button id="btn-save" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-lg text-purple-300 active:scale-95 transition-transform">💾</button>
+            </div>
+        </div>
+
+        <!-- NAV -->
+        <button id="btn-prev" class="nav-btn prev">❮</button>
+        <button id="btn-next" class="nav-btn next">❯</button>
+
+        <!-- TEXT -->
+        <div class="absolute top-[82%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm px-4 pointer-auto z-20">
+            <div class="glass-panel py-3 px-4">
+                <textarea id="entry-text" rows="1" placeholder="..."></textarea>
+            </div>
+        </div>
+
+        <!-- DOCK -->
+        <div class="w-full flex justify-center pointer-auto pb-3">
+            <div class="glass-panel !rounded-2xl !px-3 !py-2 flex items-center gap-3 max-w-[95vw] overflow-x-auto no-scrollbar" id="dock"></div>
+        </div>
+    </div>
+
+    <input type="file" id="file-input" accept="image/*" class="hidden">
+
+    <script>
+        const isMobile = window.innerWidth < 768;
+        
+        /* --- EQUILIBRIO PERFECTO --- */
+        const CFG = {
+            // RENDIMIENTO EXTREMO:
+            // Gap más alto = menos partículas.
+            // Size más grande = llena los huecos visualmente.
+            gap: isMobile ? 3 : 2,      
+            particleSize: isMobile ? 4.5 : 3.0, 
+            
+            // Límite de resolución interna (Píxeles máximos a leer)
+            // 160px es suficiente para móvil si los puntos son grandes
+            maxReadWidth: isMobile ? 160 : 350,
+
+            depth: 60,              
+            vignetteStart: 0.6,
+            vignetteEnd: 1.3,
+            
+            // Interacción
+            mouseRadius: 100,        
+            mouseForce: 15,
+            returnSpeed: 0.15,
+            
+            fov: 0.9,
+            tilt: 0.3
+        };
+
+        /* --- PARTICULA --- */
+        class Particle {
+            constructor(x, y, z, r, g, b, alpha, index) {
+                this.ox = x; this.oy = y; this.oz = z;
+                this.x = x; this.y = y; this.z = z;
+                this.r = r; this.g = g; this.b = b;
+                this.a = alpha; 
+                this.idx = index; 
+                // Offset de animación
+                this.rnd = Math.random() * 10;
+            }
+        }
+
+        /* --- MOTOR GRÁFICO --- */
+        class Engine {
+            constructor() {
+                this.canvas = document.getElementById('canvas');
+                this.ctx = this.canvas.getContext('2d', { alpha: false });
+                
+                this.particles = [];
+                this.camera = { x: 0, tiltX: 0, tiltY: 0 };
+                this.targetCamX = 0;
+                this.activeIdx = 0;
+                
+                this.mouse = { x: 0, y: 0 }; 
+                this.realMouse = { x: -9999, y: -9999 };
+
+                this.resize();
+                this.setupEvents();
+                this.loop();
+            }
+
+            resize() {
+                this.w = window.innerWidth;
+                this.h = window.innerHeight;
+                this.canvas.width = this.w;
+                this.canvas.height = this.h;
+                this.cx = this.w / 2;
+                this.cy = this.h / 2;
+                this.spacingX = this.w * 1.6;
+                if(window.app) window.app.reloadVisuals();
+            }
+
+            setupEvents() {
+                window.addEventListener('resize', () => this.resize());
+                
+                const move = (x, y) => {
+                    this.realMouse.x = x; this.realMouse.y = y;
+                    this.mouse.x = (x / this.w) * 2 - 1;
+                    this.mouse.y = (y / this.h) * 2 - 1; 
+                };
+                window.addEventListener('mousemove', e => move(e.clientX, e.clientY));
+                window.addEventListener('touchmove', e => move(e.touches[0].clientX, e.touches[0].clientY), {passive: true});
+
+                // Swipe
+                let sx = 0;
+                this.canvas.addEventListener('touchstart', e => { sx = e.touches[0].clientX; move(e.touches[0].clientX, e.touches[0].clientY); }, {passive: true});
+                this.canvas.addEventListener('touchend', e => {
+                    if(Math.abs(e.changedTouches[0].clientX - sx) > 50) window.app.move(e.changedTouches[0].clientX - sx > 0 ? -1 : 1);
+                });
+                this.canvas.addEventListener('mousedown', e => sx = e.clientX);
+                window.addEventListener('mouseup', e => {
+                    if(Math.abs(e.clientX - sx) > 50) window.app.move(e.clientX - sx > 0 ? -1 : 1);
+                });
+            }
+
+            addEntry(imgSrc, index) {
+                const img = new Image();
+                img.src = imgSrc;
+                img.onload = () => {
+                    // 1. TAMAÑO EN PANTALLA (Contain logic)
+                    // Calculamos cuánto debe ocupar visualmente
+                    const marginX = this.w * (isMobile ? 0.05 : 0.15); 
+                    const marginY = this.h * 0.30; 
+                    
+                    const availableW = this.w - marginX * 2;
+                    const availableH = this.h - marginY;
+
+                    const scaleW = availableW / img.width;
+                    const scaleH = availableH / img.height;
+                    const finalScale = Math.min(scaleW, scaleH);
+
+                    const finalW = Math.floor(img.width * finalScale);
+                    const finalH = Math.floor(img.height * finalScale);
+
+                    // 2. TAMAÑO DE LECTURA (Optimización crítica)
+                    // Leemos una versión minúscula de la imagen para crear pocas partículas
+                    const readScale = Math.min(1, CFG.maxReadWidth / finalW);
+                    const readW = Math.floor(finalW * readScale);
+                    const readH = Math.floor(finalH * readScale);
+                    
+                    const c = document.createElement('canvas');
+                    c.width = readW; c.height = readH;
+                    const ctx = c.getContext('2d');
+                    ctx.drawImage(img, 0, 0, readW, readH);
+                    const data = ctx.getImageData(0, 0, readW, readH).data;
+
+                    const worldX = index * this.spacingX;
+                    // Factor clave: convertimos coord pequeña -> coord pantalla
+                    const displayFactor = finalW / readW; 
+
+                    const cx = readW / 2;
+                    const cy = readH / 2;
+                    const maxDist = Math.sqrt(cx*cx + cy*cy);
+
+                    for(let y=0; y<readH; y+=CFG.gap) {
+                        for(let x=0; x<readW; x+=CFG.gap) {
+                            const i = (y*readW + x)*4;
+                            if(data[i+3] > 30) {
+                                // Viñeta
+                                const dx = x - cx;
+                                const dy = y - cy;
+                                const dist = Math.sqrt(dx*dx + dy*dy);
+                                const normDist = dist / maxDist;
+                                
+                                let alpha = 1;
+                                if (normDist > CFG.vignetteStart) {
+                                    const fade = (normDist - CFG.vignetteStart) / (CFG.vignetteEnd - CFG.vignetteStart);
+                                    alpha = 1 - fade;
+                                }
+
+                                if(alpha < 0.1) continue;
+
+                                const pX = worldX + dx * displayFactor;
+                                const pY = dy * displayFactor;
+                                const pZ = (Math.random()-0.5) * CFG.depth;
+
+                                this.particles.push(new Particle(
+                                    pX, pY, pZ,
+                                    data[i], data[i+1], data[i+2],
+                                    alpha,
+                                    index
+                                ));
+                            }
+                        }
+                    }
+                };
+            }
+
+            loop() {
+                // Fondo negro (borrado más rápido)
+                this.ctx.fillStyle = '#000000';
+                this.ctx.fillRect(0, 0, this.w, this.h);
+
+                // Cámara
+                this.camera.x += (this.targetCamX - this.camera.x) * 0.12;
+                
+                // Tilt suave limitado
+                const tX = (this.mouse.y || 0) * CFG.tilt;
+                const tY = -(this.mouse.x || 0) * CFG.tilt;
+                this.camera.tiltX += (tX - this.camera.tiltX) * 0.1;
+                this.camera.tiltY += (tY - this.camera.tiltY) * 0.1;
+
+                const cx = Math.cos(this.camera.tiltX);
+                const sx = Math.sin(this.camera.tiltX);
+                const cy = Math.cos(this.camera.tiltY);
+                const sy = Math.sin(this.camera.tiltY);
+                
+                const focal = this.w * CFG.fov;
+                const time = Date.now() * 0.002; // Velocidad animación
+
+                const mX = this.realMouse.x - this.cx + this.camera.x;
+                const mY = this.realMouse.y - this.cy;
+                const mouseRadSq = CFG.mouseRadius * CFG.mouseRadius;
+
+                const len = this.particles.length;
+                for(let i=0; i<len; i++) {
+                    const p = this.particles[i];
+
+                    // Culling agresivo: solo imagen activa y vecinas
+                    if (Math.abs(p.idx - this.activeIdx) > 1) continue;
+
+                    // 1. Física ligera
+                    let tx = p.ox;
+                    // Usar offset aleatorio p.rnd evita patrones repetitivos
+                    let ty = p.oy + Math.sin(time + p.rnd) * 4; 
+                    let tz = p.oz;
+
+                    // Ratón (Distancia al cuadrado para evitar sqrt = +Velocidad)
+                    const dx = tx - mX;
+                    const dy = ty - mY;
+                    
+                    if (Math.abs(dx) < CFG.mouseRadius && Math.abs(dy) < CFG.mouseRadius) {
+                        const distSq = dx*dx + dy*dy;
+                        if (distSq < mouseRadSq) {
+                            const force = (1 - distSq / mouseRadSq) * CFG.mouseForce;
+                            const ang = Math.atan2(dy, dx);
+                            tx += Math.cos(ang) * force;
+                            ty += Math.sin(ang) * force;
+                        }
+                    }
+
+                    p.x += (tx - p.x) * CFG.returnSpeed;
+                    p.y += (ty - p.y) * CFG.returnSpeed;
+                    p.z += (tz - p.z) * CFG.returnSpeed;
+
+                    // 2. Proyección
+                    const x = p.x - this.camera.x;
+                    const z = p.z;
+                    // Rotación simplificada
+                    const x1 = x * cy - z * sy;
+                    const z1 = z * cy + x * sy;
+                    const y2 = p.y * cx - z1 * sx;
+                    const z2 = z1 * cx + p.y * sx;
+
+                    if(z2 < -focal + 20) continue;
+
+                    const scale = focal / (focal + z2);
+                    
+                    // COORDENADAS ENTERAS (Bitwise OR 0) = RENDIMIENTO PURO
+                    const px = (this.cx + x1 * scale) | 0;
+                    const py = (this.cy + y2 * scale) | 0;
+
+                    if(px < -10 || px > this.w + 10 || py < -10 || py > this.h + 10) continue;
+
+                    // 3. Dibujado
+                    const size = CFG.particleSize * scale;
+                    // Las vecinas se ven semitransparentes
+                    const globalFade = (p.idx === this.activeIdx) ? 1 : 0.2;
+                    
+                    this.ctx.globalAlpha = p.a * globalFade;
+                    this.ctx.fillStyle = `rgb(${p.r},${p.g},${p.b})`;
+                    
+                    // fillRect es el método más rápido en Canvas
+                    this.ctx.fillRect(px, py, size, size);
+                }
+                
+                this.ctx.globalAlpha = 1;
+                requestAnimationFrame(() => this.loop());
+            }
+        }
+
+        /* --- APP --- */
+        class App {
+            constructor() {
+                this.engine = new Engine();
+                this.entries = this.load();
+                this.idx = 0;
+                
+                this.ui = {
+                    text: document.getElementById('entry-text'),
+                    dock: document.getElementById('dock'),
+                    mic: document.getElementById('btn-mic'),
+                    file: document.getElementById('file-input')
+                };
+
+                this.init();
+            }
+
+            load() {
+                try {
+                    const d = localStorage.getItem('cloud_mem_turbo');
+                    if(d) return JSON.parse(d);
+                } catch(e){}
+                return [{id:1, text:"Sistema Rápido.", image: this.demoImg()}];
+            }
+
+            demoImg() {
+                const c = document.createElement('canvas'); c.width=600; c.height=400;
+                const ctx = c.getContext('2d');
+                const g = ctx.createLinearGradient(0,0,600,400);
+                g.addColorStop(0, '#4f46e5'); g.addColorStop(1, '#db2777');
+                ctx.fillStyle=g; ctx.fillRect(0,0,600,400);
+                ctx.fillStyle='white'; ctx.font='bold 80px sans-serif'; 
+                ctx.textAlign='center'; ctx.fillText('HOLA', 300, 230);
+                return c.toDataURL();
+            }
+
+            init() {
+                this.reloadVisuals();
+                this.updateUI();
+
+                document.getElementById('btn-next').onclick = () => this.move(1);
+                document.getElementById('btn-prev').onclick = () => this.move(-1);
+                
+                this.ui.dock.addEventListener('click', e => {
+                    const b = e.target.closest('button');
+                    if(b && b.dataset.idx) this.goTo(parseInt(b.dataset.idx));
+                    if(b && b.id === 'add-btn') this.ui.file.click();
+                });
+
+                this.ui.file.onchange = e => { if(e.target.files[0]) this.add(e.target.files[0]); };
+                document.getElementById('btn-save').onclick = () => this.save();
+                this.voice();
+            }
+
+            reloadVisuals() {
+                this.engine.particles = [];
+                this.engine.activeIdx = this.idx;
+                this.engine.targetCamX = this.idx * this.engine.spacingX;
+                this.engine.camera.x = this.engine.targetCamX;
+                this.entries.forEach((e, i) => this.engine.addEntry(e.image, i));
+            }
+
+            move(dir) {
+                const next = this.idx + dir;
+                if(next >= 0 && next < this.entries.length) this.goTo(next);
+            }
+
+            goTo(i) {
+                this.idx = i;
+                this.engine.activeIdx = i;
+                this.updateUI();
+                this.engine.targetCamX = i * this.engine.spacingX;
+            }
+
+            updateUI() {
+                this.ui.text.value = this.entries[this.idx].text || "";
+                this.ui.dock.innerHTML = this.entries.map((item, i) => `
+                    <button class="shrink-0" data-idx="${i}">
+                        <img src="${item.image}" class="dock-img ${i===this.idx?'active':''}">
+                    </button>
+                `).join('') + `
+                    <div class="w-[1px] h-6 bg-white/20 mx-2"></div>
+                    <button id="add-btn" class="w-10 h-10 rounded-full border border-dashed border-white/30 text-white/50 flex items-center justify-center text-xl hover:text-white">+</button>
+                `;
+            }
+
+            add(file) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const c = document.createElement('canvas');
+                        // Miniatura dock
+                        const s = 200/img.width; c.width=200; c.height=img.height*s;
+                        c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+                        
+                        this.entries.push({
+                            id: Date.now(), text: "", 
+                            image: c.toDataURL('image/jpeg', 0.6)
+                        });
+                        this.reloadVisuals(); this.goTo(this.entries.length-1); this.save();
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+
+            save() {
+                if(this.entries[this.idx]) {
+                    this.entries[this.idx].text = this.ui.text.value;
+                    try {
+                        localStorage.setItem('cloud_mem_turbo', JSON.stringify(this.entries));
+                        const b = document.getElementById('btn-save');
+                        b.style.color = '#a78bfa'; setTimeout(()=>b.style.color='', 500);
+                    } catch(e){}
+                }
+            }
+
+            voice() {
+                if('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+                    const r = new SR(); r.lang = 'es-ES';
+                    r.onresult = e => this.ui.text.value += ' ' + e.results[0][0].transcript;
+                    r.onend = () => this.ui.mic.classList.remove('recording');
+                    this.ui.mic.onclick = () => { this.ui.mic.classList.add('recording'); r.start(); };
+                } else { this.ui.mic.style.display='none'; }
+            }
+        }
+
+        window.onload = () => window.app = new App();
+    </script>
+</body>
+</html>

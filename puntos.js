@@ -1,7 +1,7 @@
 // puntos.js
 
 var puntos = [
-  // Puntos de la red (amarillo)
+  // Puntos de la red
   { id: 1, lat: 31.720389, lng: 31.200000, nombre: "Punto 1", color: "#000000" },
   { id: 2, lat: 52.619722, lng: 31.200000, nombre: "Punto 2", color: "#000000" },
   { id: 3, lat: 58.280000, lng: 67.200000, nombre: "Punto 3", color: "#000000" },
@@ -14,7 +14,7 @@ var puntos = [
   { id: 10, lat: 52.619722, lng: -40.800000, nombre: "Punto 10", color: "#000000" },
   { id: 11, lat: 58.280000, lng: -4.800000, nombre: "Punto 11", color: "#000000" },
 
-  // anillo interior cercano (12..20)
+  // anillo interior cercano
   { id: 12, lat: 26.569722, lng: 67.200000, nombre: "Punto 12", color: "#000000" },
   { id: 13, lat: 31.720389, lng: 103.200000, nombre: "Punto 13", color: "#000000" },
   { id: 14, lat: 26.569722, lng: 139.200000, nombre: "Punto 14", color: "#000000" },
@@ -25,7 +25,7 @@ var puntos = [
   { id: 19, lat: 31.720389, lng: -40.800000, nombre: "Punto 19", color: "#000000" },
   { id: 20, lat: 26.569722, lng: -4.800000, nombre: "Punto 20", color: "#000000" },
 
-  // anillo interior medio (21..40)
+  // anillo interior medio
   { id: 21, lat: 10.810000, lng: 31.200000, nombre: "Punto 21", color: "#000000" },
   { id: 22, lat: 0.000000, lng: 49.200000, nombre: "Punto 22", color: "#000000" },
   { id: 23, lat: -10.810000, lng: 67.200000, nombre: "Punto 23", color: "#000000" },
@@ -47,7 +47,7 @@ var puntos = [
   { id: 39, lat: -10.810000, lng: -4.800000, nombre: "Punto 39", color: "#000000" },
   { id: 40, lat: 0.000000, lng: 13.200000, nombre: "Punto 40", color: "#000000" },
 
-  // hemisferio sur — anillo (41..50)
+  // hemisferio sur — anillo
   { id: 41, lat: -26.569000, lng: 31.200000, nombre: "Punto 41", color: "#000000" },
   { id: 42, lat: -31.719000, lng: 67.200000, nombre: "Punto 42", color: "#000000" },
   { id: 43, lat: -26.569000, lng: 103.200000, nombre: "Punto 43", color: "#000000" },
@@ -59,7 +59,7 @@ var puntos = [
   { id: 49, lat: -26.569000, lng: -40.800000, nombre: "Punto 49", color: "#000000" },
   { id: 50, lat: -31.719000, lng: -4.800000, nombre: "Punto 50", color: "#000000" },
 
-  // anillo sur más austral (51..60)
+  // anillo sur más austral
   { id: 51, lat: -58.279000, lng: 31.200000, nombre: "Punto 51", color: "#000000" },
   { id: 52, lat: -52.619000, lng: 67.200000, nombre: "Punto 52", color: "#000000" },
   { id: 53, lat: -58.279000, lng: 103.200000, nombre: "Punto 53", color: "#000000" },
@@ -95,45 +95,44 @@ var puntos = [
   { id: 79, lat: 59.557963, lng: -138.812435, nombre: "Pole 3.39M years ago", color: "#3C7A5B", imagen: "img/pole.jpg", video: "https://www.youtube.com/watch?v=7lC5t6biiGc" },
   { id: 80, lat: 13.412508, lng: 103.866951, nombre: "Angkor Wat", color: "#B88A55", imagen: "img/angkor.jpg", video: "https://www.youtube.com/watch?v=zG6DW8uGmxk" },
   { id: 81, lat: -30.15957, lng: -148.78975, nombre: "Mu", color: "#0E5E6F", imagen: "img/mu.jpg", video: "https://www.youtube.com/watch?v=Ad6CqAsdEkw" },
-  { id: 82, lat: 63.620080, lng: -146.717891, nombre: "Mount Hayes", color: "#6B7C8A", imagen: "img/hayes.jpg" },
-{ id: 83, lat: -63.6200833,  lng: 33.2821111, nombre: "Theia-Notus", color: "#FFFFFF", imagen: "img/theia.jpg", video: "https://www.youtube.com/watch?v=7lC5t6biiGc" },
- 
-  { id: 84, lat: 21.119250, lng: -11.401404, nombre: "Richat Structure", color: "#A0573B", imagen: "img/richat.jpg" }, 
-  { id: 85, lat: 51.178855, lng: -1.826174, nombre: "Stonehenge", color: "#7A8075", imagen: "img/stonehenge.jpg" },
-  { id: 86, lat: 34.3849, lng: 109.2732, nombre: "Xi’an Terracotta Army", color: "#A0522D", imagen: "img/xian.jpg" },
-  { id: 87, lat: 24.435083, lng: 123.011194, nombre: "Yonaguni", color: "#2F6F82" , imagen: "img/yonaguni.jpg" },
-  { id: 88, lat: -1.000000, lng: 119.833333, nombre: "Bada Valley", color: "#6B7A52" , imagen: "img/bada.jpg" },
-  { id: 89, lat: -7.215081, lng: 109.899774, nombre: "Dieng", color: "#3BAA9A", imagen: "img/dieg.jpg" },
-  { id: 90, lat: 24.700000, lng: 84.966667, nombre: "Bodh Gaya", color: "#C9A26B", imagen: "img/bodh.jpg" },
-  { id: 91, lat: 27.966667, lng: 86.933333, nombre: "Mt. Everest", color: "#3A6F9E", imagen: "img/everest.jpg" },
-  { id: 92, lat: 41.883333, lng: 12.500000, nombre: "Rome", color: "#C47A53", imagen: "img/rome.jpg" },
-  { id: 93, lat: 45.622751, lng: 23.310732, nombre: "Sarmizegetusa", color: "#2D9F9C", imagen: "img/sarmizegetusa.jpg" },
-  { id: 94, lat: 15.427049, lng: 45.336070, nombre: "Marib", color: "#C9A16B", imagen: "img/marib.jpg" },
-  { id: 95, lat: 12.031639, lng: 39.041111, nombre: "Lalibela", color: "#9B4F3B", imagen: "img/lalibela.jpg" },
-  { id: 96, lat: 4.355536, lng: -42.900957, nombre: "Piri Reis Atlantis", color: "#1B4F72", imagen: "img/pirireis.jpg" },
-  { id: 97, lat: -16.555657, lng: -68.673093, nombre: "Tiahuanaco", color: "#9C6040", imagen: "img/tiahuanaco.jpg" },
-  { id: 98, lat: 26.142673, lng: 32.670424, nombre: "Dendera", color: "#5CFFFF", imagen: "img/dendera.jpg" },
-  { id: 99, lat: 25.265930, lng: 82.988403, nombre: "Varanasi", color: "#B86B2B", imagen: "img/varanasi.jpg" },
-  { id: 100, lat: -19.949060, lng: -69.633646, nombre: "Giant of Tarapacá", color: "#A47C55", imagen: "img/tarapaca.jpg" },
-  { id: 101, lat: 16.823380, lng: 96.212324, nombre: "Mandalay", color: "#D4A84A", imagen: "img/mandalay.jpg" },
-  { id: 102, lat: 18.535415, lng: 31.830338, nombre: "Napata", color: "#FF5733", imagen: "img/napata.jpg" },
-  { id: 103, lat: 21.433333, lng: 39.883333, nombre: "Mecca", color: "#0B0B0B", imagen: "img/mecca.jpg" },
+  { id: 82, lat: 63.620080, lng: -146.717891, nombre: "Mount Hayes", color: "#6B7C8A", imagen: "img/hayes.jpg", video: "https://www.youtube.com/watch?v=QTIjd3vmgjk" },
+  { id: 83, lat: -63.6200833,  lng: 33.2821111, nombre: "Theia-Notus", color: "#FFFFFF", imagen: "img/theia.jpg", video: "https://www.youtube.com/watch?v=7lC5t6biiGc" }, 
+  { id: 84, lat: 21.119250, lng: -11.401404, nombre: "Richat Structure", color: "#A0573B", imagen: "img/richat.jpg", video: "https://www.youtube.com/watch?v=BrULm_thJgI" },
+  { id: 85, lat: 51.178855, lng: -1.826174, nombre: "Stonehenge", color: "#7A8075", imagen: "img/stonehenge.jpg", video: "https://www.youtube.com/watch?v=mz82uEyseVs" },
+  { id: 86, lat: 34.3849, lng: 109.2732, nombre: "Xi’an Terracotta Army", color: "#A0522D", imagen: "img/xian.jpg", video: "https://www.youtube.com/watch?v=PDEP1QEYOFc" },
+  { id: 87, lat: 24.435083, lng: 123.011194, nombre: "Yonaguni", color: "#2F6F82" , imagen: "img/yonaguni.jpg", video: "https://www.youtube.com/watch?v=msfJDXgMCW0" },
+  { id: 88, lat: -1.000000, lng: 119.833333, nombre: "Bada Valley", color: "#6B7A52" , imagen: "img/bada.jpg", video: "https://www.youtube.com/watch?v=h517Qs8z78Q" },
+  { id: 89, lat: -7.215081, lng: 109.899774, nombre: "Dieng Plateau", color: "#3BAA9A", imagen: "img/dieg.jpg", video: "https://www.youtube.com/watch?v=vi3VWBI0UEY" },
+  { id: 90, lat: 24.700000, lng: 84.966667, nombre: "Bodh Gaya", color: "#C9A26B", imagen: "img/bodh.jpg", video: "https://www.youtube.com/watch?v=kYIDF-v69y0" },
+  { id: 91, lat: 27.966667, lng: 86.933333, nombre: "Mt. Everest", color: "#3A6F9E", imagen: "img/everest.jpg", video: "https://www.youtube.com/watch?v=IFDcFn-vvTI" },
+  { id: 92, lat: 41.883333, lng: 12.500000, nombre: "Rome", color: "#C47A53", imagen: "img/rome.jpg", video: "https://www.youtube.com/watch?v=oSdo43nSK-I" },
+  { id: 93, lat: 45.622751, lng: 23.310732, nombre: "Sarmizegetusa", color: "#2D9F9C", imagen: "img/sarmizegetusa.jpg", video: "https://www.youtube.com/watch?v=Y53mt8p4eNs" },
+  { id: 94, lat: 15.427049, lng: 45.336070, nombre: "Marib", color: "#C9A16B", imagen: "img/marib.jpg", video: "https://www.youtube.com/watch?v=5678ymnEsVU" },
+  { id: 95, lat: 12.031639, lng: 39.041111, nombre: "Lalibela", color: "#9B4F3B", imagen: "img/lalibela.jpg", video: "https://www.youtube.com/watch?v=h_L1E76GGOQ" },
+  { id: 96, lat: 4.355536, lng: -42.900957, nombre: "Piri Reis Atlantis", color: "#1B4F72", imagen: "img/pirireis.jpg", video: "https://www.youtube.com/watch?v=A3Mt2qY22Og" },
+  { id: 97, lat: -16.555657, lng: -68.673093, nombre: "Tiahuanaco", color: "#9C6040", imagen: "img/tiahuanaco.jpg", video: "https://www.youtube.com/watch?v=kw8F1Cdy4w4" },
+  { id: 98, lat: 26.142673, lng: 32.670424, nombre: "Dendera", color: "#5CFFFF", imagen: "img/dendera.jpg", video: "https://www.youtube.com/watch?v=4DGnbxm4nuM" },
+  { id: 99, lat: 25.265930, lng: 82.988403, nombre: "Varanasi", color: "#B86B2B", imagen: "img/varanasi.jpg", video: "https://www.youtube.com/watch?v=eOzRgdv4nxk" },
+  { id: 100, lat: -19.949060, lng: -69.633646, nombre: "Giant of Tarapacá", color: "#A47C55", imagen: "img/tarapaca.jpg", video: "https://www.youtube.com/watch?v=lF8u0X2rFwk" },
+  { id: 101, lat: 16.823380, lng: 96.212324, nombre: "Mandalay", color: "#D4A84A", imagen: "img/mandalay.jpg", video: "https://www.youtube.com/watch?v=nFVkgWtJ5BM" },
+  { id: 102, lat: 18.535415, lng: 31.830338, nombre: "Napata", color: "#FF5733", imagen: "img/napata.jpg", video: "https://www.youtube.com/watch?v=PASBWiWy7j4" },
+  { id: 103, lat: 21.433333, lng: 39.883333, nombre: "Mecca", color: "#0B0B0B", imagen: "img/mecca.jpg", video: "https://www.youtube.com/watch?v=FT3S1Kol200" },
   { id: 104, lat: 27.175056, lng: 78.042250, nombre: "Agra", color: "#F8F5F0", imagen: "img/agra.jpg", video: "https://www.youtube.com/watch?v=0AzARAmgTVE" },
-  { id: 105, lat: 6.844536, lng:  158.335775, nombre: "Nan Madol", color: "#2E4030", imagen: "img/nan.jpg" },
-  { id: 106, lat: -13.873972, lng: -76.272694, nombre: "Paracas", color: "#CDB18A", imagen: "img/paracas.jpg" },
-  { id: 107, lat: 53.694455, lng: -6.475185, nombre: "Newgrange", color: "#7A6A4F", imagen: "img/newgrange.jpg" },
+  { id: 105, lat: 6.844536, lng:  158.335775, nombre: "Nan Madol", color: "#2E4030", imagen: "img/nan.jpg", video: "https://www.youtube.com/watch?v=iy_YBFnLmUE" },
+  { id: 106, lat: -13.873972, lng: -76.272694, nombre: "Paracas", color: "#CDB18A", imagen: "img/paracas.jpg", video: "https://www.youtube.com/watch?v=2fFO8KfujME" },
+  { id: 107, lat: 53.694455, lng: -6.475185, nombre: "Newgrange", color: "#7A6A4F", imagen: "img/newgrange.jpg", video: "https://www.youtube.com/watch?v=10AXft-xiKM" },
+  { id: 108, lat: 54.602826, lng: -3.098431, nombre: "Castlerigg", color: "#7A8975", imagen: "img/castlerigg.jpg", video: "https://www.youtube.com/watch?v=BmzAv16udIU" },  
+  { id: 109, lat: 57.347834, lng: 18.192270, nombre: "Gannarve Ship Grave", color: "#8A9186", imagen: "img/gannarve.jpg", video: "https://www.youtube.com/watch?v=5WHp75uUKBA" }, 
+  { id: 110, lat: 56.310302, lng: 38.130544, nombre: "Zagorsk", color: "#4A7CC5", imagen: "img/zagorsk.jpg", video: "https://www.youtube.com/watch?v=-bwtOAgWOGU" }, 
 
-
-{ id: 108, lat: 54.600000, lng: -3.100000, nombre: "Castlerigg", color: "#FF0000" },
-{ id: 109, lat: 57.250000, lng: 18.166667, nombre: "Gotland", color: "#FF0000" },
-{ id: 110, lat: 56.283333, lng: 38.116667, nombre: "Zagorsk", color: "#FF0000" },
 { id: 111, lat: 29.733333, lng: 91.200000, nombre: "Lhasa", color: "#FF0000" },
 { id: 112, lat: 15.216667, lng: 102.833333, nombre: "Phimai", color: "#FF0000" },
 { id: 113, lat: -25.366667, lng: 131.050000, nombre: "Uluru", color: "#FF0000" },
 { id: 114, lat: -20.133333, lng: 28.583333, nombre: "Khami", color: "#FF0000" },
 { id: 115, lat: -20.083333, lng: 30.750000, nombre: "Great Zimbabwe", color: "#FF0000" },
-{ id: 116, lat: 33.800464, lng: -114.531765, nombre: "Blythe Intaglios", color: "#FF0000" },
+  { id: 116, lat: 33.800464, lng: -114.531765, nombre: "Blythe Intaglios", color: "#A67C52", imagen: "img/intaglios.jpg", video: "https://www.youtube.com/watch?v=-LVRhUjLUtE" }, 
 { id: 117, lat: 15.650000, lng: 108.250000, nombre: "My Son", color: "#FF0000" },
+
 { id: 118, lat: 22.183333, lng: -159.450000, nombre: "Oahu", color: "#FF0000" },
 { id: 119, lat: 39.440709, lng: 44.234874, nombre: "Noah's Ark", color: "#FF0000" },, 
 { id: 120, lat: -2.516667, lng: -78.816667, nombre: "Ingapirca", color: "#FF0000" },
@@ -175,8 +174,10 @@ var puntos = [
 { id: 156, lat: 59.284876, lng: 116.589330, nombre: "Patomskiy Crater", color: "#FF0000" },
 { id: 157, lat: 17.340281, lng: 52.443905, nombre: "Barhout Pit", color: "#FF0000" },
 { id: 158, lat: -16.170257, lng: -69.540698, lng: 25.516667, nombre: "Hayu Marca Portal", color: "#FF0000" },
+
 { id: 159, lat: 42.675516, lng: 0.033770, nombre: "Monte Perdido", color: "#6E7C8C", imagen: "img/perdido.jpg" },
 { id: 160, lat: -18.296255, lng: 32.863696, nombre: "Mines Nyangani", color: "#3B5F3C", imagen: "img/nyangani.jpg" },
+
 { id: 161, lat: 37.092525, lng: 39.303581, nombre: "Karahan Tepe", color: "#FF0000" },
 { id: 162, lat: 35.827659, lng: 14.442070, nombre: "Ħaġar Qim", color: "#FF0000" },
 { id: 163, lat: 37.980719, lng: 38.740851, nombre: "Nemrut Dağı", color: "#FF0000" },
@@ -241,7 +242,8 @@ var puntos = [
 { id: 222, lat: 48.800000, lng: 26.583333, nombre: "Petridava", color: "#FF0000" },
 { id: 223, lat: -79.9775373, lng: -81.9632687, nombre: "Pyramids of Antarctica", color: "#FF0000" },
 { id: 224, lat: 2.620167, lng: 65.838000, nombre: "Lemuria", color: "#FF0000" },
-
+{ id: 225, lat: 50.813662, lng: -2.474748, nombre: "Cerne Abbas Giant", color: "#FF0000" },
+{ id: 226, lat: 43.62333, lng: 43.27250, nombre: "Khara-Hora", color: "#FF0000" },
  
 ];
 
