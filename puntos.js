@@ -174,8 +174,8 @@ var puntos = [
 { id: 157, lat: 17.340281, lng: 52.443905, nombre: "Barhout Pit", color: "#FF0000" },
 { id: 158, lat: -16.170257, lng: -69.540698, lng: 25.516667, nombre: "Hayu Marca Portal", color: "#FF0000" },
 
-{ id: 159, lat: 42.675516, lng: 0.033770, nombre: "Monte Perdido", color: "#6E7C8C", imagen: "img/perdido.jpg" },
-{ id: 160, lat: -18.296255, lng: 32.863696, nombre: "Mines Nyangani", color: "#3B5F3C", imagen: "img/nyangani.jpg" },
+{ id: 159, lat: 42.675516, lng: 0.033770, nombre: "Monte Perdido", color: "#6E7C8C", imagen: "img/perdido.jpg", video: "https://ghostsinneon.shortpage.live/watch/fYE-whdAg70" },
+{ id: 160, lat: -18.296255, lng: 32.863696, nombre: "Mines Nyangani", color: "#3B5F3C", imagen: "img/nyangani.jpg", video: "https://ghostsinneon.shortpage.live/watch/GBxUilrqp58" },
 
 { id: 161, lat: 37.092525, lng: 39.303581, nombre: "Karahan Tepe", color: "#FF0000" },
 { id: 162, lat: 35.827659, lng: 14.442070, nombre: "Ħaġar Qim", color: "#FF0000" },
