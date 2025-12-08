@@ -138,8 +138,7 @@ var puntos = [
   { id: 122, lat: 14.966667, lng: -90.533333, nombre: "Mixco Viejo", color: "#8C7A66", imagen: "img/mixco.jpg", video: "https://ghostsinneon.shortpage.live/watch/OJd6ZAkiULw" },
   { id: 123, lat: 16.866667, lng: -91.250000, nombre: "Bonampak", color: "#5A6B3F", imagen: "img/bonampak.jpg", video: "https://ghostsinneon.shortpage.live/watch/aigNAGofYq0" },
   { id: 124, lat: 17.533333, lng: -91.966667, nombre: "Palenque", color: "#3B6F4A", imagen: "img/palenque.jpg", video: "https://ghostsinneon.shortpage.live/watch/HAR0b3S31SU" },
-
-{ id: 125, lat: 18.000000, lng: -92.916667, nombre: "La Venta", color: "#FF0000" },
+  { id: 125, lat: 18.000000, lng: -92.916667, nombre: "La Venta", color: "#6A5F4B", imagen: "img/venta.jpg", video: "https://ghostsinneon.shortpage.live/watch/vpOKN7bR-Qc" },
 { id: 126, lat: 36.050000, lng: -107.983333, nombre: "Chaco Canyon", color: "#FF0000" },
 { id: 127, lat: 37.150000, lng: -108.516667, nombre: "Mesa Verde", color: "#FF0000" },
 { id: 128, lat: 31.233333, lng: 121.450000, nombre: "Shanghai", color: "#FF0000" },
