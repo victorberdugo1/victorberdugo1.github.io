@@ -142,8 +142,8 @@ var puntos = [
   { id: 126, lat: 36.050000, lng: -107.983333, nombre: "Chaco Canyon", color: "#A46E46", imagen: "img/chaco.jpg", video: "https://ghostsinneon.shortpage.live/watch/79Qc05cNC-g" },
   { id: 127, lat: 37.150000, lng: -108.516667, nombre: "Mesa Verde", color: "#0A5D2A", imagen: "img/mesaverde.jpg", video: "https://ghostsinneon.shortpage.live/watch/bdAs5QQ8kDM" },
   { id: 128, lat: 31.233333, lng: 121.450000, nombre: "Shanghai", color: "#5D4CFF", imagen: "img/shanghai.jpg", video: "https://ghostsinneon.shortpage.live/watch/tsoA2CxmDro" },
+  { id: 129, lat: 10.016667, lng: 105.100000, nombre: "Oc-Eo", color: "#8E6A3B", imagen: "img/oceo.jpg", video: "https://ghostsinneon.shortpage.live/watch/jqtScPN0XVA" },
 
-{ id: 129, lat: 10.016667, lng: 105.100000, nombre: "Oc-Eo", color: "#FF0000" },
 { id: 130, lat: 35.027377, lng: -111.022781, nombre: "Meteor Crater", color: "#FF0000" },
 { id: 131, lat: -19.203909, lng: -70.008255, nombre: "Geoglifos de Chiza", color: "#FF0000" },
 { id: 132, lat: 39.000000, lng: -89.666667, nombre: "Cahokia", color: "#FF0000" },
