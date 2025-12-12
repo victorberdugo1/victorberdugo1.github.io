@@ -144,7 +144,8 @@ var puntos = [
   { id: 128, lat: 31.233333, lng: 121.450000, nombre: "Shanghai", color: "#5D4CFF", imagen: "img/shanghai.jpg", video: "https://ghostsinneon.shortpage.live/watch/tsoA2CxmDro" },
   { id: 129, lat: 10.016667, lng: 105.100000, nombre: "Oc-Eo", color: "#8E6A3B", imagen: "img/oceo.jpg", video: "https://ghostsinneon.shortpage.live/watch/jqtScPN0XVA" },
 
-{ id: 130, lat: 35.027377, lng: -111.022781, nombre: "Meteor Crater", color: "#FF0000" },
+  { id: 130, lat: 35.027377, lng: -111.022781, nombre: "Meteor Crater", color: "#C2A67F", imagen: "img/crater.jpg", video: "https://ghostsinneon.shortpage.live/watch/y72Nz3g4hRQ" },
+
 { id: 131, lat: -19.203909, lng: -70.008255, nombre: "Geoglifos de Chiza", color: "#FF0000" },
 { id: 132, lat: 39.000000, lng: -89.666667, nombre: "Cahokia", color: "#FF0000" },
 { id: 133, lat: 40.033333, lng: -82.433333, nombre: "Newark", color: "#FF0000" },
