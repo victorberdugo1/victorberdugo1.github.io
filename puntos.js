@@ -146,7 +146,7 @@ var puntos = [
   { id: 130, lat: 35.027377, lng: -111.022781, nombre: "Meteor Crater", color: "#C2A67F", imagen: "img/crater.jpg", video: "https://ghostsinneon.shortpage.live/watch/y72Nz3g4hRQ" },
   { id: 131, lat: -19.203909, lng: -70.008255, nombre: "Geoglifos de Chiza", color: "#A7855E", imagen: "img/chiza.jpg", video: "https://ghostsinneon.shortpage.live/watch/AIe5X_3szcg" },
   { id: 132, lat: 39.000000, lng: -89.666667, nombre: "Cahokia", color: "#7C5A3C", imagen: "img/cahokia.jpg", video: "https://ghostsinneon.shortpage.live/watch/oxLfZj820ao" },
-{ id: 133, lat: 40.033333, lng: -82.433333, nombre: "Newark", color: "#FF0000" },
+  { id: 133, lat: 40.033333, lng: -82.433333, nombre: "Newark", color: "#6B5846", imagen: "img/newark.jpg", video: "https://ghostsinneon.shortpage.live/watch/DFdiAmBj45s" },
 { id: 134, lat: 17.750000, lng: -10.416667, nombre: "Audaghast", color: "#FF0000" },
 { id: 135, lat: 16.000000, lng: -8.000000, nombre: "Kumbi-Saleh", color: "#FF0000" },
 { id: 136, lat: 13.900000, lng: -4.416667, nombre: "Djenne", color: "#FF0000" },
