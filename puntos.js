@@ -150,7 +150,7 @@ var puntos = [
   { id: 134, lat: 17.750000, lng: -10.416667, nombre: "Audaghast", color: "#B89A6B", imagen: "img/audaghast.jpg", video: "https://ghostsinneon.shortpage.live/watch/ryKHyqOMBn0" },
   { id: 135, lat: 16.000000, lng: -8.000000, nombre: "Kumbi-Saleh", color: "#A98C63", imagen: "img/kumbi.jpg", video: "https://ghostsinneon.shortpage.live/watch/5DSzWSdwTjE" },
   { id: 136, lat: 13.900000, lng: -4.416667, nombre: "Djenne", color: "#C9A66B", imagen: "img/djenne.jpg", video: "https://ghostsinneon.shortpage.live/watch/hoPJYWqaUhM" },
-{ id: 137, lat: 29.975292, lng: 31.137761, nombre: "sphinx", color: "#FF0000" },
+  { id: 137, lat: 29.975292, lng: 31.137761, nombre: "Sphinx", color: "#C2A26A", imagen: "img/sphinx.jpg", video: "https://ghostsinneon.shortpage.live/watch/klNx1Y0RiOY" },
 { id: 138, lat: 20.516667, lng: -87.650000, nombre: "Coba", color: "#FF0000" },
 { id: 139, lat: 25.766667, lng: -79.250000, nombre: "Bimini Road", color: "#FF0000" },
 { id: 140, lat: 29.233333, lng: 25.516667, nombre: "Siwa", color: "#FF0000" },
