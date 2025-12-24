@@ -155,7 +155,8 @@ var puntos = [
   { id: 139, lat: 25.766667, lng: -79.250000, nombre: "Bimini Road", color: "#2F6E78", imagen: "img/bimani.jpg", video: "https://ghostsinneon.shortpage.live/watch/dcBr0PjlDU8" },
   { id: 140, lat: 29.233333, lng: 25.516667, nombre: "Siwa", color: "#BFA36A", imagen: "img/siwa.jpg", video: "https://ghostsinneon.shortpage.live/watch/CJ6-9ZulmLM" },
   { id: 141, lat: 26.183333, lng: 31.916667, nombre: "Abydos", color: "#C6A873", imagen: "img/abydos.jpg", video: "https://ghostsinneon.shortpage.live/watch/7A-o8MUJHRw" },
-{ id: 142, lat: 25.716667, lng: 32.583333, nombre: "Luxor", color: "#FF0000" },
+  { id: 142, lat: 25.716667, lng: 32.583333, nombre: "Luxor", color: "#D1B27C", imagen: "img/luxor.jpg", video: "https://ghostsinneon.shortpage.live/watch/PNHMbaE-1L8" },
+
 { id: 143, lat: -13.509049, lng: -71.982845, nombre: "Saqsaywaman", color: "#FF0000" },
 { id: 144, lat: -39.283333, lng: 175.550000, nombre: "Tongariro", color: "#FF0000" },
 { id: 145, lat: 29.866667, lng: 31.216667, nombre: "Saqqara", color: "#FF0000" },
