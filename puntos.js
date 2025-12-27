@@ -158,7 +158,7 @@ var puntos = [
   { id: 142, lat: 25.716667, lng: 32.583333, nombre: "Luxor", color: "#D1B27C", imagen: "img/luxor.jpg", video: "https://ghostsinneon.shortpage.live/watch/PNHMbaE-1L8" },
   { id: 143, lat: -13.509049, lng: -71.982845, nombre: "Saqsaywaman", color: "#8E8A82", imagen: "img/saqsayhuaman.jpg", video: "https://ghostsinneon.shortpage.live/watch/uzRTIURycr0" },
   { id: 144, lat: -39.283333, lng: 175.550000, nombre: "Tongariro", color: "#4F5B4A", imagen: "img/tongariro.jpg", video: "https://ghostsinneon.shortpage.live/watch/Tfvvmj0irlI" },
-{ id: 145, lat: 29.866667, lng: 31.216667, nombre: "Saqqara", color: "#FF0000" },
+  { id: 145, lat: 29.866667, lng: 31.216667, nombre: "Saqqara", color: "#C2AE7E", imagen: "img/saqqara.jpg", video: "https://ghostsinneon.shortpage.live/watch/9AauFuPD6Ac" },
 { id: 146, lat: 19.666667, lng: -90.250000, nombre: "Edzna", color: "#FF0000" },
 { id: 147, lat: 20.366667, lng: -89.766667, nombre: "Uxmal", color: "#FF0000" },
 { id: 148, lat: 21.166667, lng: -89.633333, nombre: "Dzibilchaltun", color: "#FF0000" },
