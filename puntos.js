@@ -161,7 +161,7 @@ var puntos = [
   { id: 145, lat: 29.866667, lng: 31.216667, nombre: "Saqqara", color: "#C2AE7E", imagen: "img/saqqara.jpg", video: "https://ghostsinneon.shortpage.live/watch/9AauFuPD6Ac" },
   { id: 146, lat: 19.666667, lng: -90.250000, nombre: "Edzna", color: "#C9A66B", imagen: "img/edzna.jpg", video: "https://ghostsinneon.shortpage.live/watch/0-f_rarQNJ0" },
   { id: 147, lat: 20.366667, lng: -89.766667, nombre: "Uxmal", color: "#C9A66B", imagen: "img/uxmal.jpg", video: "https://ghostsinneon.shortpage.live/watch/-A7N673vF40" },
-{ id: 148, lat: 21.166667, lng: -89.633333, nombre: "Dzibilchaltun", color: "#FF0000" },
+  { id: 148, lat: 21.166667, lng: -89.633333, nombre: "Dzibilchaltun", color: "#D8D2C3", imagen: "img/dzibilchaltun.jpg", video: "https://ghostsinneon.shortpage.live/watch/fgrdvSqevMg" },
 { id: 149, lat: 39.546389, lng: 20.787778, nombre: "Dodona", color: "#FF0000" },
 { id: 150, lat: 38.483333, lng: 22.500000, nombre: "Delphi", color: "#FF0000" },
 { id: 151, lat: 37.950000, lng: 23.700000, nombre: "The Acropolis", color: "#FF0000" },
