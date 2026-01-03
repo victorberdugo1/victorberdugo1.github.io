@@ -166,8 +166,8 @@ var puntos = [
   { id: 150, lat: 38.483333, lng: 22.500000, nombre: "Delphi", color: "#8B8174", imagen: "img/delphi.jpg", video: "https://ghostsinneon.shortpage.live/watch/0861iZQgqWw" },
   { id: 151, lat: 37.950000, lng: 23.700000, nombre: "The Acropolis", color: "#E6D8B5", imagen: "img/acropolis.jpg", video: "https://ghostsinneon.shortpage.live/watch/PQM4tfUdu10" },
   { id: 152, lat: 36.366667, lng: 25.366667, nombre: "Thera", color: "#5E5A57", imagen: "img/thera.jpg", video: "https://ghostsinneon.shortpage.live/watch/7EHbY0N4U4k" },
+  { id: 153, lat: 35.233333, lng: 26.266667, nombre: "Palaikastro", color: "#9AA6A3", imagen: "img/palekastro.jpg", video: "https://ghostsinneon.shortpage.live/watch/xCEsugp2vi8" },
 
-{ id: 153, lat: 35.233333, lng: 26.266667, nombre: "Palaikastro", color: "#FF0000" },
 { id: 154, lat: 37.223194, lng: 38.922422, nombre: "Göbekli Tepe", color: "#FF0000" },
 { id: 155, lat: 29.534797, lng: 0.183495, nombre: "Ksar Draa", color: "#FF0000" },
 { id: 156, lat: 59.284876, lng: 116.589330, nombre: "Patomskiy Crater", color: "#FF0000" },
