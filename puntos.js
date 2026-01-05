@@ -167,9 +167,10 @@ var puntos = [
   { id: 151, lat: 37.950000, lng: 23.700000, nombre: "The Acropolis", color: "#E6D8B5", imagen: "img/acropolis.jpg", video: "https://ghostsinneon.shortpage.live/watch/PQM4tfUdu10" },
   { id: 152, lat: 36.366667, lng: 25.366667, nombre: "Thera", color: "#5E5A57", imagen: "img/thera.jpg", video: "https://ghostsinneon.shortpage.live/watch/7EHbY0N4U4k" },
   { id: 153, lat: 35.233333, lng: 26.266667, nombre: "Palaikastro", color: "#9AA6A3", imagen: "img/palekastro.jpg", video: "https://ghostsinneon.shortpage.live/watch/xCEsugp2vi8" },
-  { id: 154, lat: 37.223194, lng: 38.922422, nombre: "Göbekli Tepe", color: "#B8A37A", imagen: "img/gobekli.jpg", video: "https://www.youtube.com/watch?v=pD-PaV693qo" },
+  { id: 154, lat: 37.223194, lng: 38.922422, nombre: "Göbekli Tepe", color: "#B8A37A", imagen: "img/gobekli.jpg", video: "https://ghostsinneon.shortpage.live/watch/hzd33Dwojy4" },
+  { id: 155, lat: 29.534797, lng: 0.183495, nombre: "Ksar Draa", color: "#B36A3C", imagen: "img/ksar.jpg", video: "https://ghostsinneon.shortpage.live/watch/8En6-B0FgR8" },
 
-{ id: 155, lat: 29.534797, lng: 0.183495, nombre: "Ksar Draa", color: "#FF0000" },
+
 { id: 156, lat: 59.284876, lng: 116.589330, nombre: "Patomskiy Crater", color: "#FF0000" },
 { id: 157, lat: 17.340281, lng: 52.443905, nombre: "Barhout Pit", color: "#FF0000" },
 { id: 158, lat: -16.170257, lng: -69.540698, lng: 25.516667, nombre: "Hayu Marca Portal", color: "#FF0000" },
