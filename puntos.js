@@ -170,12 +170,10 @@ var puntos = [
   { id: 154, lat: 37.223194, lng: 38.922422, nombre: "Göbekli Tepe", color: "#B8A37A", imagen: "img/gobekli.jpg", video: "https://ghostsinneon.shortpage.live/watch/hzd33Dwojy4" },
   { id: 155, lat: 29.534797, lng: 0.183495, nombre: "Ksar Draa", color: "#B36A3C", imagen: "img/ksar.jpg", video: "https://ghostsinneon.shortpage.live/watch/8En6-B0FgR8" },
   { id: 156, lat: 59.284876, lng: 116.589330, nombre: "Patomskiy Crater", color: "#6F767C", imagen: "img/patomskiy.jpg", video: "https://ghostsinneon.shortpage.live/watch/2_70w0jpAng" },
-
-{ id: 157, lat: 17.340281, lng: 52.443905, nombre: "Barhout Pit", color: "#FF0000" },
-{ id: 158, lat: -16.170257, lng: -69.540698, lng: 25.516667, nombre: "Hayu Marca Portal", color: "#FF0000" },
-
-{ id: 159, lat: 42.675516, lng: 0.033770, nombre: "Monte Perdido", color: "#6E7C8C", imagen: "img/perdido.jpg", video: "https://ghostsinneon.shortpage.live/watch/fYE-whdAg70" },
-{ id: 160, lat: -18.296255, lng: 32.863696, nombre: "Mines Nyangani", color: "#3B5F3C", imagen: "img/nyangani.jpg", video: "https://ghostsinneon.shortpage.live/watch/GBxUilrqp58" },
+  { id: 157, lat: 17.340281, lng: 52.443905, nombre: "Barhout Pit", color: "#2B2F33", imagen: "img/barhout.jpg", video: "https://ghostsinneon.shortpage.live/watch/dnQKi4ozJlo" },
+  { id: 158, lat: -16.170257, lng: -69.540698, lng: 25.516667, nombre: "Hayu Marca Portal", color: "#7A6F5E", imagen: "img/hayu.jpg", video: "https://ghostsinneon.shortpage.live/watch/QgWzfi6KXC0" },
+  { id: 159, lat: 42.675516, lng: 0.033770, nombre: "Monte Perdido", color: "#6E7C8C", imagen: "img/perdido.jpg", video: "https://ghostsinneon.shortpage.live/watch/fYE-whdAg70" },
+  { id: 160, lat: -18.296255, lng: 32.863696, nombre: "Mines Nyangani", color: "#3B5F3C", imagen: "img/nyangani.jpg", video: "https://ghostsinneon.shortpage.live/watch/GBxUilrqp58" },
 
 { id: 161, lat: 37.092525, lng: 39.303581, nombre: "Karahan Tepe", color: "#FF0000" },
 { id: 162, lat: 35.827659, lng: 14.442070, nombre: "Ħaġar Qim", color: "#FF0000" },
