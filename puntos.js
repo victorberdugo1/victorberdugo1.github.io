@@ -178,7 +178,7 @@ var puntos = [
   { id: 162, lat: 35.827659, lng: 14.442070, nombre: "Ħaġar Qim", color: "#C2A574", imagen: "img/qim.jpg", video: "https://ghostsinneon.shortpage.live/watch/enwqYKTQVeA" },
   { id: 163, lat: 37.980719, lng: 38.740851, nombre: "Nemrut Dağı", color: "#9A8C7A", imagen: "img/nemrut.jpg", video: "https://ghostsinneon.shortpage.live/watch/ARIedvkJWLI" },
   { id: 164, lat: 30.794447, lng: 34.773740, nombre: "Avdat", color: "#8A7C6D", imagen: "img/avdat.jpg", video: "https://ghostsinneon.shortpage.live/watch/9FjQuWExIXQ" },
-{ id: 165, lat: 12.616691, lng: 80.199043, nombre: "Mahabalipuram", color: "#FF0000" },
+{ id: 165, lat: 12.616691, lng: 80.199043, nombre: "Mahabalipuram", color: "#8A7C6D", imagen: "img/mahabalipuram.jpg", video: "https://ghostsinneon.shortpage.live/watch/CRUTjJfCJ50" },
 { id: 166, lat: 31.315462, lng: 35.353834, nombre: "Masada Fortress", color: "#FF0000" },
 { id: 167, lat: 36.047236, lng: 14.268925, nombre: "Ġgantija", color: "#FF0000" },
 { id: 168, lat: 38.630447, lng: 34.805622, nombre: "Uçhisar Kalesi", color: "#FF0000" },
