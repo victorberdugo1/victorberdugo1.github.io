@@ -4,6 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Victor Berdugo — Portfolio</title>
+
+    <!-- FIX: Eliminar destello blanco al cargar -->
+    <style>
+        html {
+            background-color: #060817;
+        }
+        body {
+            background-color: #060817;
+        }
+    </style>
+
     <style>
         * {
             margin: 0;
@@ -28,6 +39,7 @@
             z-index: 0;
         }
 
+        /* (todo el resto del CSS se mantiene exactamente igual) */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -129,7 +141,6 @@
             border-radius: 2px;
         }
 
-        /* ========== FEATURED PROJECT ========== */
         .featured-project {
             background: rgba(0, 212, 255, 0.06);
             backdrop-filter: blur(12px);
@@ -257,7 +268,6 @@
             font-weight: 500;
         }
 
-        /* ========== PROJECT GRID ========== */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -351,7 +361,6 @@
             color: #00d4ff;
         }
 
-        /* ========== SKILLS ========== */
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -389,7 +398,6 @@
             border-bottom: none;
         }
 
-        /* ========== EDUCATION ========== */
         .education-section {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
@@ -422,7 +430,6 @@
             margin-bottom: 10px;
         }
 
-        /* ========== PASSION ========== */
         .passion-section {
             background: linear-gradient(135deg, rgba(0, 153, 255, 0.1), rgba(0, 212, 255, 0.05));
             backdrop-filter: blur(10px);
@@ -454,7 +461,6 @@
             margin: 0 auto;
         }
 
-        /* ========== CONTACT ========== */
         .contact-section {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
@@ -506,7 +512,6 @@
             stroke: #0a0e27;
         }
 
-        /* ========== PARALLAX ========== */
         .parallax-container {
             position: relative;
             width: 100%;
@@ -558,7 +563,6 @@
             }
         }
 
-        /* ========== RESPONSIVE ========== */
         @media (max-width: 768px) {
             html,
             body {
@@ -631,7 +635,7 @@
         }
     </style>
 </head>
-<body>
+<body style="background-color: #060817;">  <!-- FIX: refuerzo inline por si acaso -->
     <canvas id="pixie"></canvas>
 
     <div class="container">
@@ -641,7 +645,6 @@
             <p class="tagline">Passionate about graphics programming, game development, and bringing visual concepts to life through code. Experienced in 3D modeling, AI integration, and creating immersive interactive experiences.</p>
         </header>
 
-        <!-- PASSION SECTION -->
         <section class="section">
             <div class="passion-section">
                 <h2>
@@ -658,7 +661,6 @@
             </div>
         </section>
 
-        <!-- EDUCATION -->
         <section class="section">
             <div class="education-section">
                 <h2 class="section-title">Education</h2>
@@ -678,10 +680,8 @@
             </div>
         </section>
 
-        <!-- PROJECTS -->
         <h2 class="section-title">Projects</h2>
 
-        <!-- FEATURED: ft_transcendence -->
         <a href="https://desktop-ejvdsl6.tail91a1a1.ts.net/" class="featured-project" target="_blank" rel="noopener noreferrer" title="ft_transcendence — 42 Project">
             <span class="featured-badge">★ Featured Project</span>
             <div class="featured-icon-wrapper">
@@ -711,10 +711,8 @@
             </div>
         </a>
 
-        <!-- PROJECT GRID -->
         <div class="projects-grid">
 
-            <!-- TryMyth -->
             <a href="https://victorberdugo1.github.io/trymith.html" class="project-card" target="_blank" rel="noopener noreferrer" title="TryMyth — Ley Lines Explorer">
                 <div class="project-icon">
                     <img src="https://play-lh.googleusercontent.com/u8L1KYfyIxnVJyJ4iNs5kkTYTtwiS1B_lsZ0KiET_3OezY9j1GSWr3PZMAFN2i1zeea4te6GWAD7tqnISgkB=w240-h480-rw"
@@ -732,7 +730,6 @@
                 </div>
             </a>
 
-            <!-- Android & Play Store -->
             <a href="https://play.google.com/store/apps/developer?id=Victor+Berdugo" class="project-card" target="_blank" rel="noopener noreferrer" title="Android & Play Store Apps">
                 <div class="project-icon">
                     <svg role="img" aria-label="Play Store icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
@@ -761,7 +758,6 @@
                 </div>
             </a>
 
-            <!-- Games with Raylib -->
             <a href="raypup/index.html" class="project-card" target="_blank" rel="noopener noreferrer" title="Games with Raylib">
                 <div class="project-icon">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -783,7 +779,6 @@
                 </div>
             </a>
 
-            <!-- AI & Computer Vision -->
             <a href="https://github.com/victorberdugo1/video2openposejson" class="project-card" target="_blank" rel="noopener noreferrer" title="AI & Computer Vision Projects">
                 <div class="project-icon">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -806,7 +801,6 @@
                 </div>
             </a>
 
-            <!-- 3D Modeling -->
             <a href="https://sketchfab.com/victorberdugo1" class="project-card" target="_blank" rel="noopener noreferrer" title="3D Modeling & Animation">
                 <div class="project-icon">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -826,7 +820,6 @@
                 </div>
             </a>
 
-            <!-- 42 School Projects -->
             <a href="https://github.com/victorberdugo1/cub3d" class="project-card" target="_blank" rel="noopener noreferrer" title="42 School Projects">
                 <div class="project-icon">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -849,7 +842,6 @@
 
         </div>
 
-        <!-- TECHNICAL SKILLS -->
         <section class="section">
             <h2 class="section-title">Technical Skills</h2>
             <div class="skills-grid">
@@ -936,7 +928,6 @@
             </div>
         </section>
 
-        <!-- CONTACT -->
         <section class="section">
             <div class="contact-section">
                 <h2 class="section-title">Let's Connect</h2>
@@ -981,7 +972,6 @@
         </section>
     </div>
 
-    <!-- PARALLAX -->
     <div class="parallax-container">
         <div class="parallax-mountains"></div>
         <div class="parallax-grass"></div>
@@ -1063,8 +1053,10 @@
             };
         }
 
-        for (var i = 0; i < 80; i++) { pxs[i] = new Circle();
-            pxs[i].reset(); }
+        for (var i = 0; i < 80; i++) {
+            pxs[i] = new Circle();
+            pxs[i].reset();
+        }
 
         function draw() {
             con.clearRect(0, 0, WIDTH, HEIGHT);
