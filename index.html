@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Victor Berdugo — Portfolio</title>
 
-    <!-- FIX: Eliminar destello blanco al cargar -->
     <style>
         html {
             background-color: #060817;
@@ -39,7 +38,18 @@
             z-index: 0;
         }
 
-        /* (todo el resto del CSS se mantiene exactamente igual) */
+        #aberration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
+            mix-blend-mode: screen;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -158,35 +168,6 @@
             text-decoration: none;
             color: inherit;
             cursor: pointer;
-        }
-
-        .featured-project::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg,
-                    transparent 0deg,
-                    rgba(0, 212, 255, 0.08) 60deg,
-                    transparent 120deg,
-                    rgba(0, 153, 255, 0.06) 180deg,
-                    transparent 240deg,
-                    rgba(0, 212, 255, 0.08) 300deg,
-                    transparent 360deg);
-            animation: featured-rotate 12s linear infinite;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        @keyframes featured-rotate {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
         }
 
         .featured-project>* {
@@ -635,7 +616,8 @@
         }
     </style>
 </head>
-<body style="background-color: #060817;">  <!-- FIX: refuerzo inline por si acaso -->
+<body style="background-color: #060817;">
+    <canvas id="aberration"></canvas>
     <canvas id="pixie"></canvas>
 
     <div class="container">
@@ -682,36 +664,45 @@
 
         <h2 class="section-title">Projects</h2>
 
-        <a href="https://desktop-ejvdsl6.tail91a1a1.ts.net/" class="featured-project" target="_blank" rel="noopener noreferrer" title="ft_transcendence — 42 Project">
+        <a href="https://bryncraft.online/" class="featured-project" target="_blank" rel="noopener noreferrer" title="BrynCraft">
             <span class="featured-badge">★ Featured Project</span>
             <div class="featured-icon-wrapper">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="12" r="10" stroke="#00d4ff" stroke-width="1.8" fill="none"/>
-                    <polygon points="10,8 10,16 17,12" fill="#00d4ff"/>
-                    <circle cx="12" cy="12" r="4" stroke="#00d4ff" stroke-width="1" fill="none" opacity="0.6"/>
-                    <line x1="12" y1="2" x2="12" y2="5" stroke="#00d4ff" stroke-width="1" opacity="0.5"/>
-                    <line x1="12" y1="19" x2="12" y2="22" stroke="#00d4ff" stroke-width="1" opacity="0.5"/>
-                    <line x1="2" y1="12" x2="5" y2="12" stroke="#00d4ff" stroke-width="1" opacity="0.5"/>
-                    <line x1="19" y1="12" x2="22" y2="12" stroke="#00d4ff" stroke-width="1" opacity="0.5"/>
-                </svg>
+                <img src="kiwi.svg" alt="BrynCraft icon" width="56" height="56" />
             </div>
             <div class="featured-content">
-                <h3>ft_transcendence</h3>
-                <p class="featured-subtitle">42 School — Full-Stack Web + Game Engine in WASM</p>
-                <p>Capstone 42 project combining a multiplayer Pong game rendered with <strong>Raylib compiled to WebAssembly (WASM)</strong>, integrated into a full-stack web application. Real-time 3D graphics running natively in the browser at near-native performance. Features matchmaking, live rendering, and a complete backend.</p>
+                <h3>BrynCraft</h3>
+                <p class="featured-subtitle">Web Platform</p>
+                <p>Latest project, live at bryncraft.online.</p>
                 <div class="featured-tech-stack">
-                    <span class="featured-tech-tag">Raylib</span>
-                    <span class="featured-tech-tag">WebAssembly</span>
-                    <span class="featured-tech-tag">C/C++</span>
-                    <span class="featured-tech-tag">WebGL</span>
-                    <span class="featured-tech-tag">Full-Stack</span>
-                    <span class="featured-tech-tag">Real-Time</span>
-                    <span class="featured-tech-tag">42 Project</span>
+                    <span class="featured-tech-tag">Web App</span>
                 </div>
             </div>
         </a>
 
         <div class="projects-grid">
+
+            <a href="https://desktop-ejvdsl6.tail91a1a1.ts.net/" class="project-card" target="_blank" rel="noopener noreferrer" title="ft_transcendence — 42 Project">
+                <div class="project-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="#00d4ff" stroke-width="1.8" fill="none"/>
+                        <polygon points="10,8 10,16 17,12" fill="#00d4ff"/>
+                        <circle cx="12" cy="12" r="4" stroke="#00d4ff" stroke-width="1" fill="none" opacity="0.6"/>
+                        <line x1="12" y1="2" x2="12" y2="5" stroke="#00d4ff" stroke-width="1" opacity="0.5"/>
+                        <line x1="12" y1="19" x2="12" y2="22" stroke="#00d4ff" stroke-width="1" opacity="0.5"/>
+                        <line x1="2" y1="12" x2="5" y2="12" stroke="#00d4ff" stroke-width="1" opacity="0.5"/>
+                        <line x1="19" y1="12" x2="22" y2="12" stroke="#00d4ff" stroke-width="1" opacity="0.5"/>
+                    </svg>
+                </div>
+                <h3 class="project-title">ft_transcendence</h3>
+                <p class="project-description">42 School — Full-Stack Web + Game Engine in WASM. Capstone 42 project combining a multiplayer Pong game rendered with Raylib compiled to WebAssembly, integrated into a full-stack web application. Features matchmaking, live rendering, and a complete backend.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">Raylib</span>
+                    <span class="tech-tag">WebAssembly</span>
+                    <span class="tech-tag">C/C++</span>
+                    <span class="tech-tag">Full-Stack</span>
+                    <span class="tech-tag">42 Project</span>
+                </div>
+            </a>
 
             <a href="https://victorberdugo1.github.io/trymith.html" class="project-card" target="_blank" rel="noopener noreferrer" title="TryMyth — Ley Lines Explorer">
                 <div class="project-icon">
@@ -985,15 +976,147 @@
         var pxs = [];
         var rint = 60;
 
+        var abCanvas = document.getElementById('aberration');
+        var abCon = abCanvas.getContext('2d');
+        var abBlocks = [];
+        var abColors = ['#00d4ff', '#0099ff', '#7fe8ff'];
+
+        var TETROMINOES = {
+            I: [[0, 0], [1, 0], [2, 0], [3, 0]],
+            O: [[0, 0], [1, 0], [0, 1], [1, 1]],
+            T: [[0, 0], [1, 0], [2, 0], [1, 1]],
+            S: [[1, 0], [2, 0], [0, 1], [1, 1]],
+            Z: [[0, 0], [1, 0], [1, 1], [2, 1]],
+            L: [[0, 0], [0, 1], [0, 2], [1, 2]],
+            J: [[1, 0], [1, 1], [1, 2], [0, 2]]
+        };
+        var SHAPE_KEYS = Object.keys(TETROMINOES);
+
+        function patternToCells(rows) {
+            var cells = [];
+            for (var r = 0; r < rows.length; r++) {
+                for (var c = 0; c < rows[r].length; c++) {
+                    if (rows[r][c] === 'X') cells.push([c, r]);
+                }
+            }
+            return cells;
+        }
+
+        var GHOST_SHAPE = patternToCells([
+            '..XXXX..',
+            '.XXXXXX.',
+            'XXXXXXXX',
+            'XXXXXXXX',
+            'XXXXXXXX',
+            'XXXXXXXX',
+            'X.XX.XX.'
+        ]);
+
+        var INVADER_SHAPE = patternToCells([
+            '..X.....X..',
+            '...X...X...',
+            '..XXXXXXX..',
+            '.XX.XXX.XX.',
+            'XXXXXXXXXXX',
+            'X.XXXXXXX.X',
+            'X.X.....X.X',
+            '...XX.XX...'
+        ]);
+
         canvas.width = WIDTH;
         canvas.height = HEIGHT;
+        abCanvas.width = WIDTH;
+        abCanvas.height = HEIGHT;
 
         window.addEventListener('resize', function() {
             WIDTH = window.innerWidth;
             HEIGHT = window.innerHeight;
             canvas.width = WIDTH;
             canvas.height = HEIGHT;
+            abCanvas.width = WIDTH;
+            abCanvas.height = HEIGHT;
         });
+
+        function roundRect(ctx, x, y, w, h, r) {
+            ctx.beginPath();
+            ctx.moveTo(x + r, y);
+            ctx.arcTo(x + w, y, x + w, y + h, r);
+            ctx.arcTo(x + w, y + h, x, y + h, r);
+            ctx.arcTo(x, y + h, x, y, r);
+            ctx.arcTo(x, y, x + w, y, r);
+            ctx.closePath();
+        }
+
+        function drawShapeChannel(shape, ox, oy, u, gap, color, alpha) {
+            abCon.globalAlpha = alpha;
+            abCon.fillStyle = color;
+            for (var i = 0; i < shape.length; i++) {
+                var cx = ox + shape[i][0] * u;
+                var cy = oy + shape[i][1] * u;
+                roundRect(abCon, cx, cy, u - gap, u - gap, u < 16 ? 1 : 6);
+                abCon.fill();
+            }
+        }
+
+        function AberrationBlock() {
+            this.reset = function(initial) {
+                var roll = Math.random();
+                if (roll < 0.45) {
+                    this.shape = TETROMINOES[SHAPE_KEYS[Math.floor(Math.random() * SHAPE_KEYS.length)]];
+                    this.unit = 22 + Math.random() * 12;
+                    this.gap = 3;
+                } else if (roll < 0.72) {
+                    this.shape = GHOST_SHAPE;
+                    this.unit = 6 + Math.random() * 4;
+                    this.gap = 1;
+                } else {
+                    this.shape = INVADER_SHAPE;
+                    this.unit = 5 + Math.random() * 3;
+                    this.gap = 1;
+                }
+                this.x = Math.random() * WIDTH;
+                var shapeHeight = 0;
+                for (var i = 0; i < this.shape.length; i++) {
+                    if (this.shape[i][1] + 1 > shapeHeight) shapeHeight = this.shape[i][1] + 1;
+                }
+                this.h = shapeHeight * this.unit;
+                this.y = initial ? Math.random() * (HEIGHT + this.h) - this.h : -this.h - Math.random() * 300;
+                this.speed = 0.1 + Math.random() * 0.2;
+                this.drift = (Math.random() - 0.5) * 0.08;
+                this.shift = 3 + Math.random() * 6;
+                this.alpha = 0.14 + Math.random() * 0.14;
+            };
+
+            this.draw = function() {
+                abCon.globalCompositeOperation = 'lighter';
+                drawShapeChannel(this.shape, this.x - this.shift, this.y, this.unit, this.gap, abColors[0], this.alpha);
+                drawShapeChannel(this.shape, this.x + this.shift, this.y, this.unit, this.gap, abColors[1], this.alpha);
+                drawShapeChannel(this.shape, this.x, this.y - this.shift * 0.7, this.unit, this.gap, abColors[2], this.alpha * 0.85);
+                abCon.globalCompositeOperation = 'source-over';
+            };
+
+            this.move = function() {
+                this.y += this.speed;
+                this.x += this.drift;
+                if (this.y > HEIGHT + this.h) this.reset(false);
+            };
+        }
+
+        for (var j = 0; j < 3; j++) {
+            abBlocks[j] = new AberrationBlock();
+            abBlocks[j].reset(true);
+        }
+
+        function drawAberration() {
+            abCon.clearRect(0, 0, WIDTH, HEIGHT);
+            for (var j = 0; j < abBlocks.length; j++) {
+                abBlocks[j].move();
+                abBlocks[j].draw();
+            }
+            abCon.globalAlpha = 1;
+        }
+
+        setInterval(drawAberration, rint);
 
         function Circle() {
             this.s = {
