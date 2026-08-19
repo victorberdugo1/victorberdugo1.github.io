@@ -544,6 +544,97 @@
             }
         }
 
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(6, 8, 23, 0.85);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-overlay.open {
+            display: flex;
+        }
+        .modal {
+            background: linear-gradient(135deg, rgba(0,212,255,0.07), rgba(0,153,255,0.04));
+            border: 1.5px solid rgba(0,212,255,0.4);
+            border-radius: 24px;
+            padding: 44px 40px 36px;
+            max-width: 560px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 0 80px rgba(0,212,255,0.18);
+        }
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #00d4ff;
+            font-size: 1.6em;
+            cursor: pointer;
+            line-height: 1;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        .modal-close:hover {
+            opacity: 1;
+        }
+        .modal h3 {
+            font-size: 1.6em;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .modal .modal-subtitle {
+            color: #00d4ff;
+            font-size: 0.95em;
+            margin-bottom: 28px;
+        }
+        .modal-sites {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .modal-site-link {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: rgba(0,212,255,0.07);
+            border: 1px solid rgba(0,212,255,0.25);
+            border-radius: 14px;
+            padding: 18px 22px;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        .modal-site-link:hover {
+            border-color: #00d4ff;
+            background: rgba(0,212,255,0.14);
+            transform: translateX(4px);
+        }
+        .modal-site-link svg {
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+        }
+        .modal-site-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .modal-site-name {
+            font-weight: 600;
+            font-size: 1.05em;
+            color: #00d4ff;
+        }
+        .modal-site-url {
+            font-size: 0.85em;
+            color: #888;
+        }
+
         @media (max-width: 768px) {
             html,
             body {
@@ -811,6 +902,51 @@
                 </div>
             </a>
 
+            <div class="project-card" onclick="document.getElementById('webdev-modal').classList.add('open')" title="Web Development">
+                <div class="project-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="2" y="3" width="20" height="14" rx="2" stroke="#00d4ff" stroke-width="1.6" fill="none"/>
+                        <path d="M8 21h8M12 17v4" stroke="#00d4ff" stroke-width="1.6" stroke-linecap="round"/>
+                        <path d="M6 8l3 3-3 3" stroke="#00d4ff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="11" y1="14" x2="17" y2="14" stroke="#00d4ff" stroke-width="1.2" opacity="0.6"/>
+                    </svg>
+                </div>
+                <h3 class="project-title">Web Development</h3>
+                <p class="project-description">Design and development of complete websites for clients. Projects include binaryveil.com and edwardgrayclaws.com — covering everything from visual design to deployment.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">HTML/CSS/JS</span>
+                    <span class="tech-tag">Web Design</span>
+                    <span class="tech-tag">Frontend</span>
+                    <span class="tech-tag">Deployment</span>
+                </div>
+            </div>
+
+            <a href="https://github.com/victorberdugo1/KETHERNET_0x0100007F" class="project-card" target="_blank" rel="noopener noreferrer" title="KETHERNET">
+                <div class="project-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="9" stroke="#00d4ff" stroke-width="1.6" fill="none"/>
+                        <circle cx="12" cy="12" r="3" fill="#00d4ff" opacity="0.7"/>
+                        <line x1="12" y1="3" x2="12" y2="9" stroke="#00d4ff" stroke-width="1.2"/>
+                        <line x1="12" y1="15" x2="12" y2="21" stroke="#00d4ff" stroke-width="1.2"/>
+                        <line x1="3" y1="12" x2="9" y2="12" stroke="#00d4ff" stroke-width="1.2"/>
+                        <line x1="15" y1="12" x2="21" y2="12" stroke="#00d4ff" stroke-width="1.2"/>
+                        <line x1="5.6" y1="5.6" x2="9.5" y2="9.5" stroke="#00d4ff" stroke-width="1" opacity="0.5"/>
+                        <line x1="14.5" y1="14.5" x2="18.4" y2="18.4" stroke="#00d4ff" stroke-width="1" opacity="0.5"/>
+                        <line x1="18.4" y1="5.6" x2="14.5" y2="9.5" stroke="#00d4ff" stroke-width="1" opacity="0.5"/>
+                        <line x1="9.5" y1="14.5" x2="5.6" y2="18.4" stroke="#00d4ff" stroke-width="1" opacity="0.5"/>
+                    </svg>
+                </div>
+                <h3 class="project-title">KETHERNET</h3>
+                <p class="project-description">An executable structural analysis. Two live Smalltalk runtimes (Squeak + Pharo) communicate over TCP — two heaps, one channel. NAVI is a closed LLM feedback loop that generates Smalltalk code, scores it with a measurable beauty function, and fine-tunes itself via QLoRA. The corpus maps Lurianic Kabbalah, Smalltalk, and quantum field theory as instantiations of the same structural form.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">Smalltalk</span>
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Docker</span>
+                    <span class="tech-tag">LLM / QLoRA</span>
+                    <span class="tech-tag">TCP</span>
+                </div>
+            </a>
+
             <a href="https://github.com/victorberdugo1/cub3d" class="project-card" target="_blank" rel="noopener noreferrer" title="42 School Projects">
                 <div class="project-icon">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -966,6 +1102,36 @@
     <div class="parallax-container">
         <div class="parallax-mountains"></div>
         <div class="parallax-grass"></div>
+    </div>
+
+    <div id="webdev-modal" class="modal-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+        <div class="modal">
+            <button class="modal-close" onclick="document.getElementById('webdev-modal').classList.remove('open')">&times;</button>
+            <h3>Web Development</h3>
+            <p class="modal-subtitle">Client websites — from design to deployment</p>
+            <div class="modal-sites">
+                <a href="https://binaryveil.com/" class="modal-site-link" target="_blank" rel="noopener noreferrer">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="#00d4ff" stroke-width="1.6" fill="none"/>
+                        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" stroke="#00d4ff" stroke-width="1.2" fill="none"/>
+                    </svg>
+                    <div class="modal-site-info">
+                        <span class="modal-site-name">Binary Veil</span>
+                        <span class="modal-site-url">binaryveil.com</span>
+                    </div>
+                </a>
+                <a href="https://edwardgrayclaws.com/" class="modal-site-link" target="_blank" rel="noopener noreferrer">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="#00d4ff" stroke-width="1.6" fill="none"/>
+                        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" stroke="#00d4ff" stroke-width="1.2" fill="none"/>
+                    </svg>
+                    <div class="modal-site-info">
+                        <span class="modal-site-name">Edward Gray Claws</span>
+                        <span class="modal-site-url">edwardgrayclaws.com</span>
+                    </div>
+                </a>
+            </div>
+        </div>
     </div>
 
     <script>
