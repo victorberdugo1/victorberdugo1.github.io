@@ -107,9 +107,23 @@
         var progressElement = document.getElementById('progress');
         var spinnerElement = document.getElementById('spinner');
 
+        function resizeToContainer() {
+            var container = document.getElementById('canvas-container');
+            var w = container.clientWidth  | 0;
+            var h = container.clientHeight | 0;
+            if (w <= 0 || h <= 0) return;
+            if (typeof Browser !== 'undefined' && Browser.setCanvasSize) {
+                Browser.setCanvasSize(w, h);
+            }
+        }
+
+        window.addEventListener('resize', resizeToContainer);
+
         var Module = {
             preRun: [],
-            postRun: [],
+            postRun: [function() {
+                requestAnimationFrame(resizeToContainer);
+            }],
             print: function(text) {
                 if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
                 console.log(text);
@@ -159,28 +173,6 @@
         };
 
         Module.setStatus('Downloading...');
-
-        function resizeToContainer() {
-            var container = document.getElementById('canvas-container');
-            var w = container.clientWidth  | 0;
-            var h = container.clientHeight | 0;
-            if (w <= 0 || h <= 0) return;
-            if (typeof Browser !== 'undefined' && Browser.setCanvasSize) {
-                Browser.setCanvasSize(w, h);
-            } else {
-                var canvas = document.getElementById('canvas');
-                canvas.width  = w;
-                canvas.height = h;
-            }
-        }
-
-        Module.onRuntimeInitialized = function() {
-            resizeToContainer();
-        };
-
-        window.addEventListener('resize', function() {
-            resizeToContainer();
-        });
 
         window.onerror = function() {
             Module.setStatus('Exception thrown, see JavaScript console');
