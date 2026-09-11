@@ -3,80 +3,89 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Bones3D - Web Game</title>
-    <meta name="viewport" content="width=device-width">
+    <title>Platonic Dual Resonance</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        body {
-            font-family: arial;
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-color: #1a1a1a;
         }
-        
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            background-color: #1a1a1a;
+            font-family: arial;
+        }
+
         #header {
             width: 100%;
-            height: 80px;
+            height: 60px;
             background-color: #2a2a2a;
             display: flex;
             align-items: center;
             padding: 0 20px;
-            box-sizing: border-box;
         }
-        
+
         #logo {
-            width: 64px;
-            height: 64px;
+            width: 44px;
+            height: 44px;
             background-image: url('logo.jpg');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
             cursor: pointer;
+            flex-shrink: 0;
         }
-        
+
         .spinner {
-            height: 30px;
-            width: 30px;
-            margin-left: 20px;
-            display: inline-block;
-            vertical-align: middle;
+            height: 24px;
+            width: 24px;
+            margin-left: 16px;
+            flex-shrink: 0;
             animation: rotation 0.8s linear infinite;
-            border-left: 5px solid #555;
-            border-right: 5px solid #555;
-            border-bottom: 5px solid #555;
-            border-top: 5px solid #ff4444;
+            border-left: 4px solid #555;
+            border-right: 4px solid #555;
+            border-bottom: 4px solid #555;
+            border-top: 4px solid #ff4444;
             border-radius: 100%;
             background-color: #f5f5f5;
         }
-        
+
         @keyframes rotation {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-        
+
         #status {
-            display: inline-block;
-            vertical-align: middle;
-            margin-left: 20px;
+            margin-left: 16px;
             font-weight: bold;
             color: #ffffff;
+            font-size: 14px;
         }
-        
+
         #progress {
             height: 0;
             width: 0;
         }
-        
-        .emscripten_border {
+
+        #canvas-container {
+            position: relative;
             width: 100%;
-            max-width: 1280px;
-            margin: 20px auto;
-            border: 2px solid #444;
+            height: calc(100vh - 60px);
+            background-color: #1a1a1a;
+            overflow: hidden;
         }
-        
+
         canvas.emscripten {
-            border: 0 none;
-            background: #000;
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
+            border: 0;
+            background: #000;
             display: block;
         }
     </style>
@@ -88,8 +97,8 @@
         <div id="status">Downloading...</div>
         <progress hidden id="progress" max="100" value="0"></progress>
     </div>
-    
-    <div class="emscripten_border">
+
+    <div id="canvas-container">
         <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
     </div>
 
@@ -120,14 +129,14 @@
             setStatus: function(text) {
                 if (!Module.setStatus.last) Module.setStatus.last = { time: Date.now(), text: '' };
                 if (text === Module.setStatus.last.text) return;
-                
+
                 var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
                 var now = Date.now();
                 if (m && now - Module.setStatus.last.time < 30) return;
-                
+
                 Module.setStatus.last.time = now;
                 Module.setStatus.last.text = text;
-                
+
                 if (m) {
                     text = m[1];
                     progressElement.value = parseInt(m[2]) * 100;
@@ -150,6 +159,28 @@
         };
 
         Module.setStatus('Downloading...');
+
+        function resizeToContainer() {
+            var container = document.getElementById('canvas-container');
+            var w = container.clientWidth  | 0;
+            var h = container.clientHeight | 0;
+            if (w <= 0 || h <= 0) return;
+            if (typeof Browser !== 'undefined' && Browser.setCanvasSize) {
+                Browser.setCanvasSize(w, h);
+            } else {
+                var canvas = document.getElementById('canvas');
+                canvas.width  = w;
+                canvas.height = h;
+            }
+        }
+
+        Module.onRuntimeInitialized = function() {
+            resizeToContainer();
+        };
+
+        window.addEventListener('resize', function() {
+            resizeToContainer();
+        });
 
         window.onerror = function() {
             Module.setStatus('Exception thrown, see JavaScript console');
