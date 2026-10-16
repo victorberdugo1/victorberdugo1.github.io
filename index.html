@@ -151,6 +151,14 @@
             border-radius: 2px;
         }
 
+        /* ---------- FEATURED PROJECTS (grid for two cards) ---------- */
+        .featured-projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
         .featured-project {
             background: rgba(0, 212, 255, 0.06);
             backdrop-filter: blur(12px);
@@ -253,6 +261,70 @@
             font-size: 0.9em;
             color: #00d4ff;
             font-weight: 500;
+        }
+
+        /* Override the featured-project layout when inside the grid so the
+           two cards sit side by side without breaking */
+        .featured-projects .featured-project {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 16px 24px;
+            align-items: start;
+            padding: 32px 30px;
+            margin-bottom: 0;
+        }
+
+        .featured-projects .featured-badge {
+            grid-column: 1 / -1;
+            justify-self: start;
+            margin-bottom: 0;
+        }
+
+        .featured-projects .featured-icon-wrapper {
+            width: 64px;
+            height: 64px;
+        }
+
+        .featured-projects .featured-icon-wrapper img,
+        .featured-projects .featured-icon-wrapper svg {
+            width: 38px;
+            height: 38px;
+        }
+
+        .featured-projects .featured-content {
+            min-width: 0;
+        }
+
+        .featured-projects .featured-content h3 {
+            font-size: 1.5em;
+        }
+
+        .featured-projects .featured-content .featured-subtitle {
+            font-size: 0.95em;
+        }
+
+        .featured-projects .featured-content p {
+            font-size: 0.95em;
+        }
+
+        .featured-projects .featured-tech-tag {
+            font-size: 0.8em;
+            padding: 5px 12px;
+        }
+
+        @media (max-width: 600px) {
+            .featured-projects .featured-project {
+                grid-template-columns: 1fr;
+                justify-items: center;
+                text-align: center;
+                padding: 28px 22px;
+            }
+            .featured-projects .featured-badge {
+                justify-self: center;
+            }
+            .featured-projects .featured-tech-stack {
+                justify-content: center;
+            }
         }
 
         .projects-grid {
@@ -763,22 +835,43 @@
 
         <h2 class="section-title">Projects</h2>
 
-        <a href="https://play.google.com/store/apps/details?id=com.requiem.eternal" class="featured-project" target="_blank" rel="noopener noreferrer" title="Requiem Eternal">
-            <span class="featured-badge">★ Featured Project</span>
-            <div class="featured-icon-wrapper">
-                <img src="https://play-lh.googleusercontent.com/Ogmsikf4Uz8T0ANCNbpBvvpa24i4wXEGv9L8Gu7eSbrM82pg6oDSGuVm3iIn2-KKquJqJqqAdY1--BPvIEu1pw=w240-h480-rw" alt="Requiem Eternal icon" width="56" height="56" />
-            </div>
-            <div class="featured-content">
-                <h3>Requiem Eternal</h3>
-                <p class="featured-subtitle">Android Game</p>
-                <p>A dark, atmospheric experience you control with your hands, body and voice. Now on Google Play.</p>
-                <div class="featured-tech-stack">
-                    <span class="featured-tech-tag">Android</span>
-                    <span class="featured-tech-tag">Hand Tracking</span>
-                    <span class="featured-tech-tag">Voice Interaction</span>
+        <div class="featured-projects">
+            <a href="https://play.google.com/store/apps/details?id=com.requiem.eternal" class="featured-project" target="_blank" rel="noopener noreferrer" title="Requiem Eternal">
+                <span class="featured-badge">★ Featured Project</span>
+                <div class="featured-icon-wrapper">
+                    <img src="https://play-lh.googleusercontent.com/Ogmsikf4Uz8T0ANCNbpBvvpa24i4wXEGv9L8Gu7eSbrM82pg6oDSGuVm3iIn2-KKquJqJqqAdY1--BPvIEu1pw=w240-h480-rw" alt="Requiem Eternal icon" width="56" height="56" />
                 </div>
-            </div>
-        </a>
+                <div class="featured-content">
+                    <h3>Requiem Eternal</h3>
+                    <p class="featured-subtitle">Android Game</p>
+                    <p>A dark, atmospheric experience you control with your hands, body and voice. Now on Google Play.</p>
+                    <div class="featured-tech-stack">
+                        <span class="featured-tech-tag">Android</span>
+                        <span class="featured-tech-tag">Hand Tracking</span>
+                        <span class="featured-tech-tag">Voice Interaction</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://play.google.com/store/apps/details?id=com.posesync" class="featured-project" target="_blank" rel="noopener noreferrer" title="PoseSync">
+                <span class="featured-badge">★ New Featured</span>
+                <div class="featured-icon-wrapper">
+                    <img src="https://play-lh.googleusercontent.com/jrOXgAag3r3kgVGYClnTexAhGxEJSgj-3SlcXvZfrkneVK8XgSVANTBvHYwySVJJ9bi0DS1gTjC8y5-W8PG_2w=w480-h960-rw" alt="PoseSync icon" width="56" height="56" />
+                </div>
+                <div class="featured-content">
+                    <h3>PoseSync</h3>
+                    <p class="featured-subtitle">Multi-Device 3D Motion Capture</p>
+                    <p>Turn 1-3 Android phones into a real mocap rig. Body, face and hand tracking, Bluetooth sync between devices, and export to JSON, BVH, VMC and Live2D.</p>
+                    <div class="featured-tech-stack">
+                        <span class="featured-tech-tag">Android</span>
+                        <span class="featured-tech-tag">Kotlin</span>
+                        <span class="featured-tech-tag">OpenCV</span>
+                        <span class="featured-tech-tag">MediaPipe</span>
+                        <span class="featured-tech-tag">Motion Capture</span>
+                    </div>
+                </div>
+            </a>
+        </div>
 
         <div class="projects-grid">
 
