@@ -695,6 +695,11 @@
             height: 22px;
             flex-shrink: 0;
         }
+        .modal-site-link img {
+            height: 40px;
+            width: auto;
+            flex-shrink: 0;
+        }
         .modal-site-info {
             display: flex;
             flex-direction: column;
@@ -869,7 +874,7 @@
                 </div>
             </a>
 
-            <a href="https://play.google.com/store/apps/details?id=com.eondrift.singularityprotocol" class="featured-project" target="_blank" rel="noopener noreferrer" title="EONDRIFT Singularity Protocol">
+            <div class="featured-project" onclick="document.getElementById('eondrift-modal').classList.add('open')" title="EONDRIFT Singularity Protocol">
                 <span class="featured-badge">★ New Featured</span>
                 <div class="featured-icon-wrapper">
                     <img src="https://play-lh.googleusercontent.com/pAs_Fz-JA75tSKbdFQUUyjwstpZuCNPm8LkF8zVTzoL5_ety4ccYfXBdIhAmetbjDKM-DhQ5nscyCvrwEukahg=w480-h960-rw" alt="EONDRIFT Singularity Protocol icon" width="56" height="56" />
@@ -885,7 +890,7 @@
                         <span class="featured-tech-tag">Spells</span>
                     </div>
                 </div>
-            </a>
+            </div>
         </div>
 
         <div class="projects-grid">
@@ -1216,6 +1221,42 @@
                     <div class="modal-site-info">
                         <span class="modal-site-name">Edward Gray Claws</span>
                         <span class="modal-site-url">edwardgrayclaws.com</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="eondrift-modal" class="modal-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+        <div class="modal">
+            <button class="modal-close" onclick="document.getElementById('eondrift-modal').classList.remove('open')">&times;</button>
+            <h3>EONDRIFT: Singularity Protocol</h3>
+            <p class="modal-subtitle">Choose how you want to play</p>
+            <div class="modal-sites">
+                <a href="https://play.google.com/store/apps/details?id=com.eondrift.singularityprotocol" class="modal-site-link" target="_blank" rel="noopener noreferrer">
+                    <img src="https://static.itch.io/images/store_badges/google.png" alt="Get it on Google Play" height="40" />
+                    <div class="modal-site-info">
+                        <span class="modal-site-name">Google Play</span>
+                        <span class="modal-site-url">Android</span>
+                    </div>
+                </a>
+                <a href="eondrift/index.html" class="modal-site-link" target="_blank" rel="noopener noreferrer">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="#00d4ff" stroke-width="1.6" fill="none"/>
+                        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" stroke="#00d4ff" stroke-width="1.2" fill="none"/>
+                    </svg>
+                    <div class="modal-site-info">
+                        <span class="modal-site-name">Play on the web</span>
+                        <span class="modal-site-url">Browser</span>
+                    </div>
+                </a>
+                <a href="https://victorberdugo.itch.io/eondrift-singularity-protocol" class="modal-site-link" target="_blank" rel="noopener noreferrer">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 3v12M7 10l5 5 5-5M4 20h16" stroke="#00d4ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </svg>
+                    <div class="modal-site-info">
+                        <span class="modal-site-name">Install from itch.io</span>
+                        <span class="modal-site-url">victorberdugo.itch.io</span>
                     </div>
                 </a>
             </div>
