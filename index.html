@@ -695,11 +695,6 @@
             height: 22px;
             flex-shrink: 0;
         }
-        .modal-site-link img {
-            height: 40px;
-            width: auto;
-            flex-shrink: 0;
-        }
         .modal-site-info {
             display: flex;
             flex-direction: column;
@@ -1234,7 +1229,12 @@
             <p class="modal-subtitle">Choose how you want to play</p>
             <div class="modal-sites">
                 <a href="https://play.google.com/store/apps/details?id=com.eondrift.singularityprotocol" class="modal-site-link" target="_blank" rel="noopener noreferrer">
-                    <img src="https://static.itch.io/images/store_badges/google.png" alt="Get it on Google Play" height="40" />
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2.5 13 12 4 21.5z" fill="#00A0FF"/>
+                        <path d="M4 2.5 16.5 9.5 13 12z" fill="#00E676"/>
+                        <path d="M4 21.5 16.5 14.5 13 12z" fill="#FF3A44"/>
+                        <path d="M16.5 9.5 21 12 16.5 14.5 13 12z" fill="#FFD500"/>
+                    </svg>
                     <div class="modal-site-info">
                         <span class="modal-site-name">Google Play</span>
                         <span class="modal-site-url">Android</span>
@@ -1242,8 +1242,8 @@
                 </a>
                 <a href="eondrift/index.html" class="modal-site-link" target="_blank" rel="noopener noreferrer">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="12" cy="12" r="10" stroke="#00d4ff" stroke-width="1.6" fill="none"/>
-                        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" stroke="#00d4ff" stroke-width="1.2" fill="none"/>
+                        <rect x="2" y="2" width="20" height="20" rx="3" fill="#654FF0"/>
+                        <path d="M6.5 8l1.6 8 2-5.5 2 5.5 1.6-8M15.5 16l1.25-8 1.25 8M15.9 13.8h1.7" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
                     </svg>
                     <div class="modal-site-info">
                         <span class="modal-site-name">Play on the web</span>
@@ -1252,7 +1252,8 @@
                 </a>
                 <a href="https://victorberdugo.itch.io/eondrift-singularity-protocol" class="modal-site-link" target="_blank" rel="noopener noreferrer">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 3v12M7 10l5 5 5-5M4 20h16" stroke="#00d4ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                        <path d="M4.5 3h15L22 8.5a3 3 0 0 1-5.3 1.8 3 3 0 0 1-4.7 0 3 3 0 0 1-4.7 0A3 3 0 0 1 2 8.5z" fill="#FA5C5C"/>
+                        <path d="M4 12v8h16v-8M9.5 20v-5h5v5" stroke="#FA5C5C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
                     </svg>
                     <div class="modal-site-info">
                         <span class="modal-site-name">Install from itch.io</span>
