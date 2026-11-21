@@ -51,6 +51,7 @@ var Module={
   }
 };
 function hideLoader(){loader.classList.add('done');canvas.focus()}
+function showMessage(text){msg.textContent=text;document.getElementById('bar').style.display='none';loader.classList.remove('done')}
 ['keydown','mousedown','pointerdown','touchstart'].forEach(function(t){
   window.addEventListener(t,function(){document.dispatchEvent(new Event('click'))},{once:true,capture:true});
 });
@@ -59,5 +60,3 @@ window.addEventListener('error',function(e){msg.textContent='Error: '+e.message}
 <script async type="text/javascript" src="index.js"></script>
 </body>
 </html>
-
-
