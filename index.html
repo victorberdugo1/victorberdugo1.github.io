@@ -271,6 +271,10 @@
             margin-bottom: 0;
         }
 
+        .featured-projects .featured-project-wide {
+            grid-column: 1 / -1;
+        }
+
         .featured-projects .featured-badge {
             grid-column: 1 / -1;
             justify-self: start;
@@ -833,6 +837,25 @@
         <h2 class="section-title">Projects</h2>
 
         <div class="featured-projects">
+            <div class="featured-project featured-project-wide" onclick="document.getElementById('ordealnights-modal').classList.add('open')" title="Ordeal Nights">
+                <span class="featured-badge">★ New Featured</span>
+                <div class="featured-icon-wrapper">
+                    <svg viewBox="0 0 56 56" width="56" height="56" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ordeal Nights icon">
+                        <rect width="56" height="56" rx="12" fill="#0b0f2a"/>
+                        <path d="M35 10a18 18 0 1 0 11 30A15 15 0 0 1 35 10z" fill="#e8e4ff"/>
+                    </svg>
+                </div>
+                <div class="featured-content">
+                    <h3>Ordeal Nights</h3>
+                    <p class="featured-subtitle">Survival Game</p>
+                    <p>Survive the trials of the night. Play it in your browser or get it on Google Play.</p>
+                    <div class="featured-tech-stack">
+                        <span class="featured-tech-tag">Android</span>
+                        <span class="featured-tech-tag">WebAssembly</span>
+                    </div>
+                </div>
+            </div>
+
             <a href="https://play.google.com/store/apps/details?id=com.requiem.eternal" class="featured-project" target="_blank" rel="noopener noreferrer" title="Requiem Eternal">
                 <span class="featured-badge">★ Featured Project</span>
                 <div class="featured-icon-wrapper">
@@ -851,7 +874,6 @@
             </a>
 
             <a href="https://play.google.com/store/apps/details?id=com.posesync" class="featured-project" target="_blank" rel="noopener noreferrer" title="PoseSync">
-                <span class="featured-badge">★ New Featured</span>
                 <div class="featured-icon-wrapper">
                     <img src="https://play-lh.googleusercontent.com/jrOXgAag3r3kgVGYClnTexAhGxEJSgj-3SlcXvZfrkneVK8XgSVANTBvHYwySVJJ9bi0DS1gTjC8y5-W8PG_2w=w480-h960-rw" alt="PoseSync icon" width="56" height="56" />
                 </div>
@@ -870,7 +892,6 @@
             </a>
 
             <div class="featured-project" onclick="document.getElementById('eondrift-modal').classList.add('open')" title="EONDRIFT Singularity Protocol">
-                <span class="featured-badge">★ New Featured</span>
                 <div class="featured-icon-wrapper">
                     <img src="https://play-lh.googleusercontent.com/pAs_Fz-JA75tSKbdFQUUyjwstpZuCNPm8LkF8zVTzoL5_ety4ccYfXBdIhAmetbjDKM-DhQ5nscyCvrwEukahg=w480-h960-rw" alt="EONDRIFT Singularity Protocol icon" width="56" height="56" />
                 </div>
@@ -1251,6 +1272,48 @@
                     </div>
                 </a>
                 <a href="https://victorberdugo.itch.io/eondrift-singularity-protocol" class="modal-site-link" target="_blank" rel="noopener noreferrer">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4.5 3h15L22 8.5a3 3 0 0 1-5.3 1.8 3 3 0 0 1-4.7 0 3 3 0 0 1-4.7 0A3 3 0 0 1 2 8.5z" fill="#FA5C5C"/>
+                        <path d="M4 12v8h16v-8M9.5 20v-5h5v5" stroke="#FA5C5C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </svg>
+                    <div class="modal-site-info">
+                        <span class="modal-site-name">Install from itch.io</span>
+                        <span class="modal-site-url">victorberdugo.itch.io</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="ordealnights-modal" class="modal-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+        <div class="modal">
+            <button class="modal-close" onclick="document.getElementById('ordealnights-modal').classList.remove('open')">&times;</button>
+            <h3>Ordeal Nights</h3>
+            <p class="modal-subtitle">Choose how you want to play</p>
+            <div class="modal-sites">
+                <a href="https://play.google.com/store/apps/details?id=com.ordealnights.game" class="modal-site-link" target="_blank" rel="noopener noreferrer">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 2.5 13 12 4 21.5z" fill="#00A0FF"/>
+                        <path d="M4 2.5 16.5 9.5 13 12z" fill="#00E676"/>
+                        <path d="M4 21.5 16.5 14.5 13 12z" fill="#FF3A44"/>
+                        <path d="M16.5 9.5 21 12 16.5 14.5 13 12z" fill="#FFD500"/>
+                    </svg>
+                    <div class="modal-site-info">
+                        <span class="modal-site-name">Google Play</span>
+                        <span class="modal-site-url">Android</span>
+                    </div>
+                </a>
+                <a href="ordeal-nights/index.html" class="modal-site-link" target="_blank" rel="noopener noreferrer">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="2" y="2" width="20" height="20" rx="3" fill="#654FF0"/>
+                        <path d="M6.5 8l1.6 8 2-5.5 2 5.5 1.6-8M15.5 16l1.25-8 1.25 8M15.9 13.8h1.7" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </svg>
+                    <div class="modal-site-info">
+                        <span class="modal-site-name">Play on the web</span>
+                        <span class="modal-site-url">Browser</span>
+                    </div>
+                </a>
+                <a href="https://victorberdugo.itch.io/ordeal-nights" class="modal-site-link" target="_blank" rel="noopener noreferrer">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M4.5 3h15L22 8.5a3 3 0 0 1-5.3 1.8 3 3 0 0 1-4.7 0 3 3 0 0 1-4.7 0A3 3 0 0 1 2 8.5z" fill="#FA5C5C"/>
                         <path d="M4 12v8h16v-8M9.5 20v-5h5v5" stroke="#FA5C5C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
