@@ -42,7 +42,7 @@ var interrupted=store.read('ordalia_ok')==='0'&&store.read('ordalia_log');
 if(interrupted){var last=document.getElementById('last');last.hidden=false;last.textContent='La ejecución anterior se interrumpió tras:\n'+interrupted}
 store.write('ordalia_ok','0');
 var tail=[];
-function record(text){tail.push(text);if(tail.length>14)tail.shift();store.write('ordalia_log',tail.join('\n'))}
+function record(text){tail.push(text);if(tail.length>24)tail.shift();store.write('ordalia_log',tail.join('\n'))}
 canvas.addEventListener('webglcontextlost',function(e){e.preventDefault();msg.textContent='Contexto gráfico perdido. Recarga la página.';loader.classList.remove('done')});
 var Module={
   canvas:canvas,
@@ -63,7 +63,7 @@ var Module={
   }
 };
 function hideLoader(){store.write('ordalia_ok','1');loader.classList.add('done');canvas.focus()}
-function showMessage(text){msg.textContent=text;document.getElementById('bar').style.display='none';loader.classList.remove('done')}
+function showMessage(text,withLog){msg.textContent=text;document.getElementById('bar').style.display='none';if(withLog){var last=document.getElementById('last');last.hidden=false;last.textContent=tail.join('\n')}loader.classList.remove('done')}
 ['keydown','mousedown','pointerdown','touchstart'].forEach(function(t){
   window.addEventListener(t,function(){document.dispatchEvent(new Event('click'))},{once:true,capture:true});
 });
