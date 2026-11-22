@@ -55,6 +55,16 @@ function showMessage(text){msg.textContent=text;document.getElementById('bar').s
 ['keydown','mousedown','pointerdown','touchstart'].forEach(function(t){
   window.addEventListener(t,function(){document.dispatchEvent(new Event('click'))},{once:true,capture:true});
 });
+if(window.matchMedia('(pointer:coarse)').matches){
+  var resumeAudio=function(){
+    var m=window.miniaudio;
+    if(!m)return;
+    m.devices.forEach(function(d){
+      if(d&&d.webaudio&&d.webaudio.state!=='running'&&d.state===m.device_state.started)d.webaudio.resume();
+    });
+  };
+  ['touchend','pointerup','click'].forEach(function(t){window.addEventListener(t,resumeAudio,true)});
+}
 window.addEventListener('error',function(e){msg.textContent='Error: '+e.message});
 </script>
 <script async type="text/javascript" src="index.js"></script>
