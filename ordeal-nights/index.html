@@ -12,7 +12,6 @@ html,body{margin:0;height:100%;background:#000;overflow:hidden;color:#ddd;font-f
 #bar{width:min(320px,70vw);height:3px;background:#222;margin-top:18px}
 #fill{height:100%;width:0;background:#ddd}
 #msg{font-size:14px;letter-spacing:.08em}
-#last{max-width:90vw;max-height:40vh;overflow:auto;margin:18px 0 0;font:11px/1.4 monospace;color:#999;white-space:pre-wrap}
 #rotate{display:none;position:fixed;inset:0;z-index:3;background:#000;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;font-size:18px;letter-spacing:.04em}
 #rotate svg{width:72px;height:72px;margin-bottom:20px;animation:turn 2.4s ease-in-out infinite}
 @keyframes turn{0%,20%{transform:rotate(0)}60%,100%{transform:rotate(-90deg)}}
@@ -29,42 +28,20 @@ html,body{margin:0;height:100%;background:#000;overflow:hidden;color:#ddd;font-f
 <div id="loader">
 <div id="msg">Cargando…</div>
 <div id="bar"><div id="fill"></div></div>
-<pre id="last" hidden></pre>
 </div>
 <script>
 var loader=document.getElementById('loader'),msg=document.getElementById('msg'),fill=document.getElementById('fill');
 var canvas=document.getElementById('canvas');
-var store={
-  read:function(key){try{return sessionStorage.getItem(key)}catch(e){return null}},
-  write:function(key,value){try{sessionStorage.setItem(key,value)}catch(e){}}
-};
-var interrupted=store.read('ordalia_ok')==='0'&&store.read('ordalia_log');
-if(interrupted){var last=document.getElementById('last');last.hidden=false;last.textContent='La ejecución anterior se interrumpió tras:\n'+interrupted}
-store.write('ordalia_ok','0');
-var tail=[],problems=[];
-function report(){return problems.concat(['--'],tail).join('\n')}
-function record(text){
-  if(/WARNING|ERROR|error/.test(text)&&problems.length<30)problems.push(text);
-  tail.push(text);if(tail.length>8)tail.shift();
-  store.write('ordalia_log',report())
-}
-function gpuLimits(){
-  try{
-    var gl=canvas.getContext('webgl2');
-    return 'GPU '+gl.getParameter(gl.RENDERER)+' | vert '+gl.getParameter(gl.MAX_VERTEX_UNIFORM_VECTORS)+' frag '+gl.getParameter(gl.MAX_FRAGMENT_UNIFORM_VECTORS)+' tex '+gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS)+' floatRT '+!!gl.getExtension('EXT_color_buffer_float')+'\n'
-  }catch(e){return ''}
-}
 canvas.addEventListener('webglcontextlost',function(e){e.preventDefault();msg.textContent='Contexto gráfico perdido. Recarga la página.';loader.classList.remove('done')});
 var Module={
   canvas:canvas,
-  print:function(t){console.log(t);record(t)},
-  printErr:function(t){console.warn(t);record(t)},
+  print:function(t){console.log(t)},
+  printErr:function(t){console.warn(t)},
   setStatus:function(t){
     var m=/(\d+)\/(\d+)/.exec(t);
     if(m&&+m[2]){fill.style.width=(100*m[1]/m[2])+'%'}
     if(t)msg.textContent=m?'Cargando…':t;
   },
-  onAbort:function(what){msg.textContent='Error: '+what;document.getElementById('bar').style.display='none';loader.classList.remove('done')},
   monitorRunDependencies:function(left){
     if(!this.total||left>this.total)this.total=left;
     fill.style.width=(100*(this.total-left)/this.total)+'%';
@@ -73,8 +50,8 @@ var Module={
     fill.style.width='100%';msg.textContent='Iniciando…';
   }
 };
-function hideLoader(){store.write('ordalia_ok','1');loader.classList.add('done');canvas.focus()}
-function showMessage(text,withLog){msg.textContent=text;document.getElementById('bar').style.display='none';if(withLog){var last=document.getElementById('last');last.hidden=false;last.textContent=gpuLimits()+report()}loader.classList.remove('done')}
+function hideLoader(){loader.classList.add('done');canvas.focus()}
+function showMessage(text){msg.textContent=text;document.getElementById('bar').style.display='none';loader.classList.remove('done')}
 ['keydown','mousedown','pointerdown','touchstart'].forEach(function(t){
   window.addEventListener(t,function(){document.dispatchEvent(new Event('click'))},{once:true,capture:true});
 });
