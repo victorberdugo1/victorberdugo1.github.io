@@ -12,6 +12,7 @@ html,body{margin:0;height:100%;background:#000;overflow:hidden;color:#ddd;font-f
 #bar{width:min(320px,70vw);height:3px;background:#222;margin-top:18px}
 #fill{height:100%;width:0;background:#ddd}
 #msg{font-size:14px;letter-spacing:.08em}
+#last{max-width:90vw;max-height:40vh;overflow:auto;margin:18px 0 0;font:11px/1.4 monospace;color:#999;white-space:pre-wrap}
 #rotate{display:none;position:fixed;inset:0;z-index:3;background:#000;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;font-size:18px;letter-spacing:.04em}
 #rotate svg{width:72px;height:72px;margin-bottom:20px;animation:turn 2.4s ease-in-out infinite}
 @keyframes turn{0%,20%{transform:rotate(0)}60%,100%{transform:rotate(-90deg)}}
@@ -28,15 +29,25 @@ html,body{margin:0;height:100%;background:#000;overflow:hidden;color:#ddd;font-f
 <div id="loader">
 <div id="msg">Cargando…</div>
 <div id="bar"><div id="fill"></div></div>
+<pre id="last" hidden></pre>
 </div>
 <script>
 var loader=document.getElementById('loader'),msg=document.getElementById('msg'),fill=document.getElementById('fill');
 var canvas=document.getElementById('canvas');
+var store={
+  read:function(key){try{return sessionStorage.getItem(key)}catch(e){return null}},
+  write:function(key,value){try{sessionStorage.setItem(key,value)}catch(e){}}
+};
+var interrupted=store.read('ordalia_ok')==='0'&&store.read('ordalia_log');
+if(interrupted){var last=document.getElementById('last');last.hidden=false;last.textContent='La ejecución anterior se interrumpió tras:\n'+interrupted}
+store.write('ordalia_ok','0');
+var tail=[];
+function record(text){tail.push(text);if(tail.length>14)tail.shift();store.write('ordalia_log',tail.join('\n'))}
 canvas.addEventListener('webglcontextlost',function(e){e.preventDefault();msg.textContent='Contexto gráfico perdido. Recarga la página.';loader.classList.remove('done')});
 var Module={
   canvas:canvas,
-  print:function(t){console.log(t)},
-  printErr:function(t){console.warn(t)},
+  print:function(t){console.log(t);record(t)},
+  printErr:function(t){console.warn(t);record(t)},
   setStatus:function(t){
     var m=/(\d+)\/(\d+)/.exec(t);
     if(m&&+m[2]){fill.style.width=(100*m[1]/m[2])+'%'}
@@ -51,7 +62,7 @@ var Module={
     fill.style.width='100%';msg.textContent='Iniciando…';
   }
 };
-function hideLoader(){loader.classList.add('done');canvas.focus()}
+function hideLoader(){store.write('ordalia_ok','1');loader.classList.add('done');canvas.focus()}
 function showMessage(text){msg.textContent=text;document.getElementById('bar').style.display='none';loader.classList.remove('done')}
 ['keydown','mousedown','pointerdown','touchstart'].forEach(function(t){
   window.addEventListener(t,function(){document.dispatchEvent(new Event('click'))},{once:true,capture:true});
